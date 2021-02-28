@@ -28,27 +28,37 @@ public class RegistryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (dao.DaoRetro.isUserAvailable(request.getParameter("user"))) {
-            if (request.getParameter("password").equals(request.getParameter("confirm"))) {
-                if (request.getParameter("password").length()>=4) {
-                    User user = new User();
-                    user.setUsername(request.getParameter("username"));
-                    user.setPassword(request.getParameter("password"));
-                    user.setEmail(request.getParameter("email"));
-                    dao.DaoRetro.insertUser(user);
+        if (!request.getParameter("username").isEmpty()
+                && !request.getParameter("password").isEmpty()
+                && !request.getParameter("confirm").isEmpty()
+                && !request.getParameter("email").isEmpty()) {
+            if (dao.DaoRetro.isUserAvailable(request.getParameter("user"))) {
+                if (request.getParameter("password").equals(request.getParameter("confirm"))) {
+                    if (request.getParameter("password").length() >= 4) {
+                        User user = new User();
+                        user.setUsername(request.getParameter("username"));
+                        user.setPassword(request.getParameter("password"));
+                        user.setEmail(request.getParameter("email"));
+                        dao.DaoRetro.insertUser(user);
+                        request.getSession().setAttribute("user", user);
+                        response.sendRedirect("index.jsp");
+                    } else {
+                        request.setAttribute("error", "LA CONTRASEÑA ES DEMASIADO PEQUEÑA");
+                        request.getRequestDispatcher("registro.jsp").forward(request, response);
+                    }
                 } else {
-                    request.setAttribute("error", "LA CONTRASEÑA ES DEMASIADO PEQUEÑA");
-                    request.getRequestDispatcher("registro.php").forward(request, response);
+                    request.setAttribute("error", "LA CONTRASEÑA NO COINCIDE");
+                    request.getRequestDispatcher("registro.jsp").forward(request, response);
                 }
             } else {
-                request.setAttribute("error", "LA CONTRASEÑA NO COINCIDE");
-                request.getRequestDispatcher("registro.php").forward(request, response);
+                request.setAttribute("error", "USUARIO NO DISPONIBLE");
+                request.getRequestDispatcher("registro.jsp").forward(request, response);
             }
+        } else {
+            request.setAttribute("error", "NO DEBEN QUEDAR CAMPOS VACÍOS");
+                request.getRequestDispatcher("registro.jsp").forward(request, response);
         }
-        else {
-            request.setAttribute("error", "USUARIO NO DISPONIBLE");
-            request.getRequestDispatcher("registro.php").forward(request, response);
-        }
+        
     }
 
 }

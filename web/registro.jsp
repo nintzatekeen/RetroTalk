@@ -4,6 +4,7 @@
     Author     : ACER
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,9 @@
             <input type="email" name="email" placeholder="CORREO ELECTRÓNICO"/>
             <br/>
             <input type="submit" name="submit" value="REGISTRARSE"/>
+            <c:if test="${requestScope.error != null}">
+                <p style="color:red">${requestScope.error}</p>
+            </c:if>
         </form>
 
     </body>
