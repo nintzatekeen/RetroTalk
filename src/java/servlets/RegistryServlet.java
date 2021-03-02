@@ -7,11 +7,11 @@ package servlets;
 
 import beans.User;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.jasypt.util.text.AES256TextEncryptor;
 
 /**
  *
@@ -37,7 +37,11 @@ public class RegistryServlet extends HttpServlet {
                     if (request.getParameter("password").length() >= 4) {
                         User user = new User();
                         user.setUsername(request.getParameter("username"));
-                        user.setPassword(request.getParameter("password"));
+                        System.out.println(request.getServletContext().getInitParameter("encryptionPass"));
+                        AES256TextEncryptor encryptor = new AES256TextEncryptor();
+                        
+                        encryptor.setPassword(request.getServletContext().getInitParameter("encryptionPass"));
+                        user.setPassword(encryptor.encrypt(request.getParameter("password")));
                         user.setEmail(request.getParameter("email"));
                         dao.DaoRetro.insertUser(user);
                         request.getSession().setAttribute("user", user);

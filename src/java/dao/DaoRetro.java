@@ -14,8 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -44,7 +42,7 @@ public class DaoRetro {
 
             String sqlAvailableUser = "select id from user where username = ?";
             String sqlInsertUser = "insert into user (username, password, email, date) values (?,?,?,now())";
-            String sqlGetUserByUsername = "select (id, username, password, email, bio, avatar, date) from user where username=?";
+            String sqlGetUserByUsername = "select id, username, password, email, bio, avatar, date from user where username=?";
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
             psGetUserByUsername = cn.prepareStatement(sqlGetUserByUsername);

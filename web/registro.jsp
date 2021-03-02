@@ -15,13 +15,13 @@
     <body>
         <h1>REGISTRO</h1>
         <form method="POST" action="RegistryServlet">
-            <input type="text" name="username" placeholder="USAURIO"/>
+            <input type="text" name="username" placeholder="USAURIO" value="${param.username}"/>
             <br/>
             <input type="password" name="password" placeholder="CONTRASEÑA"/>
             <br/>
             <input type="password" name="confirm" placeholder="REPITE CONTRASEÑA"/>
             <br/>
-            <input type="email" name="email" placeholder="CORREO ELECTRÓNICO"/>
+            <input type="email" name="email" placeholder="CORREO ELECTRÓNICO" value="${param.email}"/>
             <br/>
             <input type="submit" name="submit" value="REGISTRARSE"/>
             <c:if test="${requestScope.error != null}">
