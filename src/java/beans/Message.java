@@ -16,12 +16,12 @@ public class Message {
     private String content;
     private User user;
     private Date date;
-    private Thread thread;
+    private ForumThread thread;
 
     public Message() {
     }
 
-    public Message(int id, String content, User user, Date date, Thread thread) {
+    public Message(int id, String content, User user, Date date, ForumThread thread) {
         this.id = id;
         this.content = content;
         this.user = user;
@@ -61,11 +61,11 @@ public class Message {
         this.date = date;
     }
 
-    public Thread getThread() {
+    public ForumThread getThread() {
         return thread;
     }
 
-    public void setThread(Thread thread) {
+    public void setThread(ForumThread thread) {
         this.thread = thread;
     }
     

@@ -20,8 +20,7 @@
                 List<Category> list = dao.DaoRetro.getCategories();
                 for(Category c : list) {
             %>
-            <li><%=c.getName()%></li>
-
+            <li><a href='threads.jsp?cat=<%=c.getId()%>'><%=c.getName()%></a></li>
             <%
             }
             %>

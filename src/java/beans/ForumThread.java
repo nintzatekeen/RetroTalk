@@ -9,16 +9,16 @@ package beans;
  *
  * @author ACER
  */
-public class Thread {
+public class ForumThread {
     private int id;
     private String title;
     private User user;
     private Category category;
 
-    public Thread() {
+    public ForumThread() {
     }
 
-    public Thread(int id, String title, User user, Category category) {
+    public ForumThread(int id, String title, User user, Category category) {
         this.id = id;
         this.title = title;
         this.user = user;
