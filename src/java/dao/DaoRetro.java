@@ -8,6 +8,7 @@ package dao;
 import beans.Category;
 import beans.User;
 import beans.ForumThread;
+import beans.Message;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -31,6 +34,9 @@ public class DaoRetro {
     private static PreparedStatement psGetThreads;
     private static PreparedStatement psGetUserById;
     private static PreparedStatement psGetCategoryById; 
+    private static PreparedStatement psGetMessages;
+    private static PreparedStatement psGetThreadById;
+    private static PreparedStatement psGetMessageById;
 
     static {
         //Para el driver nuevo
@@ -51,12 +57,18 @@ public class DaoRetro {
             String sqlGetThreads = "select id, title, user, category from thread where category = ? order by id limit ?,50";
             String sqlGetUserById = "select id, username, password, email, bio, avatar, date from user where id=?";
             String sqlGetCategoryById = "select id, name, description from category where id = ?";
+            String sqlGetMessages = "select id, content, user, thread, date, quote from message where thread = ? limit ?,50";
+            String sqlGetThreadById = "select id, title, user, category from thread where id = ?";
+            String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
             psGetUserByUsername = cn.prepareStatement(sqlGetUserByUsername);
             psGetThreads = cn.prepareStatement(sqlGetThreads);
             psGetUserById = cn.prepareStatement(sqlGetUserById);
             psGetCategoryById = cn.prepareStatement(sqlGetCategoryById);
+            psGetMessages = cn.prepareStatement(sqlGetMessages);
+            psGetThreadById = cn.prepareStatement(sqlGetThreadById);
+            psGetMessageById = cn.prepareStatement(sqlGetMessageById);
         } catch (SQLException ex) {
         }
     }
@@ -158,6 +170,21 @@ public class DaoRetro {
         }
         return null;
     }
+    
+    public static ForumThread getThreadById (Integer id) {
+        try {
+            psGetThreadById.setInt(1, id);
+            ResultSet rs = psGetThreadById.executeQuery();
+            if (rs.next())
+                return new ForumThread(rs.getInt("id")
+                        , rs.getString("title")
+                        , getUserById(rs.getInt("user"))
+                        , getCategoryById(rs.getInt("category")));
+        } catch (SQLException ex) {
+            System.err.println("Error en getThreadById: " + ex.getMessage());
+        }
+        return null;
+    }
 
     public static Collection<ForumThread> getThreads(Integer categoryId, Integer page) {
         ArrayList<ForumThread> list = new ArrayList<ForumThread>();
@@ -177,6 +204,48 @@ public class DaoRetro {
                 return list;
         } catch (SQLException ex) {
             System.err.println("Error en getThreads: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    public static Message getMessageById (Integer id) {
+        try {
+            psGetMessageById.setInt(1, id);
+            ResultSet rs = psGetMessageById.executeQuery();
+            if (rs.next()) {
+                return new Message(rs.getInt("id")
+                        , rs.getString("content")
+                        , getUserById(rs.getInt("user"))
+                        , rs.getDate("date")
+                        , getThreadById(rs.getInt("thread")));
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getMessageById: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    public static Collection<Message> getMessages (Integer threadId, Integer page) {
+        try {
+            psGetMessages.setInt(1, threadId);
+            psGetMessages.setInt(2, page*50);
+            ResultSet rs = psGetMessages.executeQuery();
+            ArrayList<Message> list = new ArrayList<Message>();
+            while (rs.next()) {
+                Message msg = new Message(rs.getInt("id")
+                        , rs.getString("content")
+                        , getUserById(rs.getInt("user"))
+                        , rs.getDate("date")
+                        , getThreadById(rs.getInt("thread")));
+                if(rs.getInt("quote")!=0) {
+                    Message quoted = getMessageById(rs.getInt("quote"));
+                }
+                list.add(msg);
+            }
+            if (!list.isEmpty())
+                return list;
+        } catch (SQLException ex) {
+            System.err.println("Error en getMessages: " + ex.getMessage());
         }
         return null;
     }

@@ -17,6 +17,7 @@ public class Message {
     private User user;
     private Date date;
     private ForumThread thread;
+    private Message quote;
 
     public Message() {
     }
@@ -67,6 +68,14 @@ public class Message {
 
     public void setThread(ForumThread thread) {
         this.thread = thread;
+    }
+
+    public Message getQuote() {
+        return quote;
+    }
+
+    public void setQuote(Message quote) {
+        this.quote = quote;
     }
     
     

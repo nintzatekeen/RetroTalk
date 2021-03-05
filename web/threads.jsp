@@ -25,7 +25,7 @@
                         out.print("<ul>");
                         for (ForumThread thread : threads) {
                 %>
-            <li><%=thread.getTitle()%></li>
+            <li><a href='thread.jsp?thread=<%=thread.getId()%>'><%=thread.getTitle()%></a></li>
                 <%
                     }
                     out.print("</ul>");
@@ -34,7 +34,7 @@
             <p style="color:red">
                 PÁGINA NO ENCONTRADA
             </p>
-            <%    
+            <%
                 }
 
             %>
