@@ -37,6 +37,8 @@ public class DaoRetro {
     private static PreparedStatement psGetMessages;
     private static PreparedStatement psGetThreadById;
     private static PreparedStatement psGetMessageById;
+    private static PreparedStatement psGetLastThreadPage;
+    private static PreparedStatement psSendMessage;
 
     static {
         //Para el driver nuevo
@@ -60,6 +62,9 @@ public class DaoRetro {
             String sqlGetMessages = "select id, content, user, thread, date, quote from message where thread = ? limit ?,50";
             String sqlGetThreadById = "select id, title, user, category from thread where id = ?";
             String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
+            String sqlGetLastThreadPage = "select count(*) as messages from message where thread = ?";
+            String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
+            
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
             psGetUserByUsername = cn.prepareStatement(sqlGetUserByUsername);
@@ -69,6 +74,8 @@ public class DaoRetro {
             psGetMessages = cn.prepareStatement(sqlGetMessages);
             psGetThreadById = cn.prepareStatement(sqlGetThreadById);
             psGetMessageById = cn.prepareStatement(sqlGetMessageById);
+            psGetLastThreadPage = cn.prepareStatement(sqlGetLastThreadPage);
+            psSendMessage = cn.prepareStatement(sqlSendMessage);
         } catch (SQLException ex) {
         }
     }
@@ -248,5 +255,33 @@ public class DaoRetro {
             System.err.println("Error en getMessages: " + ex.getMessage());
         }
         return null;
+    }
+    
+    public static int getLastThreadPage (ForumThread thread) {
+        try {
+            Integer id = thread.getId();
+            psGetLastThreadPage.setInt(1, id);
+            ResultSet rs = psGetLastThreadPage.executeQuery();
+            if (rs.next()) {
+                Integer page = rs.getInt("messages")/50;
+                return page;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastThreadPage: " + ex.getMessage());
+        }
+        return 0;
+    }
+    
+    public static boolean sendMessage (User user, ForumThread thread, String content) {
+        try {
+            psSendMessage.setString(1, content);
+            psSendMessage.setInt(2, user.getId());
+            psSendMessage.setInt(3, thread.getId());
+            psSendMessage.setNull(4, java.sql.Types.INTEGER);
+            return psSendMessage.executeUpdate() != 0;
+        } catch (SQLException ex) {
+            System.err.println("Error en sendMessage: " + ex.getMessage());
+        }
+        return false;
     }
 }

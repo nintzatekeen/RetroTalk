@@ -19,18 +19,30 @@
                 Integer thread = Integer.parseInt(request.getParameter("thread"));
                 Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
                 Collection<Message> list = dao.DaoRetro.getMessages(thread, pag);
-                out.print("<ul>");
-                for (Message msg : list) {
         %>
-    <li><%=msg.getContent()%></li>
+        <ul>
+            <%
+                for (Message msg : list) {
+            %>
+            <li><%=msg.getContent()%></li>
+                <%
+                    }%>
+        </ul>
+        <%
+            if (request.getSession().getAttribute("user") != null) {
+        %>
+        <form method="post" action="ServletMessage"> <!--enctype="multipart/form-data"-->
+            <input type="hidden" name="thread" value="<%=thread%>"/>
+            <textarea name="message" cols="80" rows="10"></textarea>
+            <input type="submit" name="submit" value="ENVIAR"/>
+        </form>
         <%
             }
-            out.print("</ul>");
         } catch (Exception ex) {
         %>
-    <p style="color:red">PÁGINA NO ENCONTRADA</p>
-    <%
-        }
-    %>
-</body>
+        <p style="color:red">PÁGINA NO ENCONTRADA</p>
+        <%
+            }
+        %>
+    </body>
 </html>
