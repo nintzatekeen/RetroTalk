@@ -17,6 +17,7 @@
     <body>
         <c:choose>
             <c:when test="${param.cat != null}">
+                <a href="createThread.jsp?cat=${param.cat}">CREAR HILO</a>
                 <%
                     try {
                         Integer cat = Integer.parseInt(request.getParameter("cat"));

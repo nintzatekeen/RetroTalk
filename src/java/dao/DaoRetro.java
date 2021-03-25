@@ -17,8 +17,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -39,6 +37,7 @@ public class DaoRetro {
     private static PreparedStatement psGetMessageById;
     private static PreparedStatement psGetLastThreadPage;
     private static PreparedStatement psSendMessage;
+    private static PreparedStatement psCreateThread;
 
     static {
         //Para el driver nuevo
@@ -64,6 +63,7 @@ public class DaoRetro {
             String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
             String sqlGetLastThreadPage = "select count(*) as messages from message where thread = ?";
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
+            String sqlCreateThread = "insert into thread (title, user, category) values (?, ?, ?)";
             
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
@@ -76,6 +76,7 @@ public class DaoRetro {
             psGetMessageById = cn.prepareStatement(sqlGetMessageById);
             psGetLastThreadPage = cn.prepareStatement(sqlGetLastThreadPage);
             psSendMessage = cn.prepareStatement(sqlSendMessage);
+            psCreateThread = cn.prepareStatement(sqlCreateThread, Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException ex) {
         }
     }
@@ -283,5 +284,33 @@ public class DaoRetro {
             System.err.println("Error en sendMessage: " + ex.getMessage());
         }
         return false;
+    }
+    
+    public static ForumThread createNewThread (Category category, User user, String title, String content) {
+        try {
+            psCreateThread.setString(1, title);
+            psCreateThread.setInt(2, user.getId());
+            psCreateThread.setInt(3, category.getId());
+            
+            psCreateThread.execute();
+            
+            ResultSet rs = psCreateThread.getGeneratedKeys();
+            if (rs.next()) {
+                Integer threadId = rs.getInt(1);
+                if (threadId != 0) 
+                    if (sendMessage(
+                        user,
+                        getThreadById(threadId),
+                        content)
+                    ) return getThreadById(threadId);
+                else
+                    return null;
+            } else
+                return null;
+            
+        } catch (SQLException ex) {
+            System.err.println("Error en createNewThread: " + ex.getMessage());
+        }
+        return null;
     }
 }
