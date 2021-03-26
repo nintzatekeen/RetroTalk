@@ -4,6 +4,7 @@
     Author     : dw2
 --%>
 
+<%@page import="beans.User"%>
 <%@page import="beans.Message"%>
 <%@page import="java.util.Collection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,7 +24,9 @@
         <ul>
             <%
                 for (Message msg : list) {
+                    User msgUser = msg.getUser();
             %>
+            <li><a href="profile.jsp?user=<%=msgUser.getId()%>"><%=msgUser.getUsername()%></a></li>
             <li><%=msg.getContent()%></li>
                 <%
                     }%>
