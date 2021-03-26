@@ -4,6 +4,9 @@
     Author     : dw2
 --%>
 
+<%@page import="java.util.Locale"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="dao.DaoRetro"%>
 <%@page import="beans.User"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -18,10 +21,14 @@
                 let buttons = document.getElementsByClassName("editBtn");
                 for (let i = 0; i < buttons.length; i++) {
                     buttons[i].addEventListener("click", e => {
-                        console.log(e.target);
+                        //Todos los botones deben comenzar con la palabra "edit" seguido del id del elemento referenciado
+                        let id = e.target.idtoLowerCase().substring(4);
+                        let element = document.getElementById(id);
+                        element.value
                     });
                 }
             }
+
         </script>
     </head>
     <body>
@@ -29,22 +36,20 @@
             try {
                 Integer usrId = Integer.parseInt(request.getParameter("user"));
                 User viewUser = DaoRetro.getUserById(usrId);
+                DateFormat df = new SimpleDateFormat("dd 'de' MMMMMMMMMMMM 'de' YYYY", new Locale("es", "ES"));
         %>
         <h1>Perfil de <%=viewUser.getUsername()%></h1>
         <%
-            User myUser = (User) session.getAttribute("user");
-            boolean editable = (myUser != null && myUser.getId() == viewUser.getId());
+            if (viewUser.getAvatar() != null && !viewUser.getAvatar().isEmpty()) {
+        %>       
+        <img style="width: 50; height: 50" alt="avatar" src="<%=viewUser.getAvatar()%>">
+        <%
+            }
         %>
         <ul>
-            <li><%=viewUser.getBio()%>
-                <%
-                  if (editable) {
-                %>
-                <button class="editBtn" id="editBio">Editar</button>
-                <%
-                  }
-                %>
-            </li>
+            <li> Bio: <%=viewUser.getBio() != null ? viewUser.getBio() : ""%></li>
+            <li> F.registro: <%=df.format(viewUser.getDate())%></li>
+            <li><a href="userThreads.jsp?user=<%=viewUser.getId()%>">Hilos iniciados por <%=viewUser.getUsername()%></a></li>
         </ul>
 
 

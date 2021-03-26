@@ -38,6 +38,7 @@ public class DaoRetro {
     private static PreparedStatement psGetLastThreadPage;
     private static PreparedStatement psSendMessage;
     private static PreparedStatement psCreateThread;
+    private static PreparedStatement psGetUserThreads;
 
     static {
         //Para el driver nuevo
@@ -55,7 +56,7 @@ public class DaoRetro {
             String sqlAvailableUser = "select id from user where username = ?";
             String sqlInsertUser = "insert into user (username, password, email, date) values (?,?,?,now())";
             String sqlGetUserByUsername = "select id, username, password, email, bio, avatar, date from user where username=?";
-            String sqlGetThreads = "select id, title, user, category from thread where category = ? order by id limit ?,50";
+            String sqlGetThreads = "select id, title, user, category from thread where category = ? order by id desc limit ?,50";
             String sqlGetUserById = "select id, username, password, email, bio, avatar, date from user where id=?";
             String sqlGetCategoryById = "select id, name, description from category where id = ?";
             String sqlGetMessages = "select id, content, user, thread, date, quote from message where thread = ? limit ?,50";
@@ -64,6 +65,8 @@ public class DaoRetro {
             String sqlGetLastThreadPage = "select count(*) as messages from message where thread = ?";
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
             String sqlCreateThread = "insert into thread (title, user, category) values (?, ?, ?)";
+            String sqlGetUserThreads = "select id, title, user, category "
+                    + "from thread where user = ? order by id desc limit ?,50";
             
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
@@ -77,6 +80,7 @@ public class DaoRetro {
             psGetLastThreadPage = cn.prepareStatement(sqlGetLastThreadPage);
             psSendMessage = cn.prepareStatement(sqlSendMessage);
             psCreateThread = cn.prepareStatement(sqlCreateThread, Statement.RETURN_GENERATED_KEYS);
+            psGetUserThreads = cn.prepareStatement(sqlGetUserThreads);
         } catch (SQLException ex) {
         }
     }
@@ -310,6 +314,28 @@ public class DaoRetro {
             
         } catch (SQLException ex) {
             System.err.println("Error en createNewThread: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+        public static Collection<ForumThread> getUserThreads(Integer userId, Integer page) {
+        ArrayList<ForumThread> list = new ArrayList<ForumThread>();
+        try {
+            Integer msgFrom = page * 50;
+            psGetThreads.setInt(1, userId);
+            psGetThreads.setInt(2, msgFrom);
+            ResultSet rs = psGetThreads.executeQuery();
+            while (rs.next()) {
+                ForumThread thread = new ForumThread(rs.getInt("id")
+                        ,rs.getString("title"),
+                        getUserById(rs.getInt("user")),
+                        getCategoryById(rs.getInt("category")));
+                list.add(thread);
+            }
+            if (!list.isEmpty())
+                return list;
+        } catch (SQLException ex) {
+            System.err.println("Error en getUserThreads: " + ex.getMessage());
         }
         return null;
     }
