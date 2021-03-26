@@ -365,9 +365,9 @@ public class DaoRetro {
         ArrayList<ForumThread> list = new ArrayList<ForumThread>();
         try {
             Integer msgFrom = page * 50;
-            psGetThreads.setInt(1, userId);
-            psGetThreads.setInt(2, msgFrom);
-            ResultSet rs = psGetThreads.executeQuery();
+            psGetUserThreads.setInt(1, userId);
+            psGetUserThreads.setInt(2, msgFrom);
+            ResultSet rs = psGetUserThreads.executeQuery();
             while (rs.next()) {
                 ForumThread thread = new ForumThread(rs.getInt("id"),
                          rs.getString("title"),
