@@ -31,7 +31,7 @@ public class DaoRetro {
     private static PreparedStatement psGetUserByUsername;
     private static PreparedStatement psGetThreads;
     private static PreparedStatement psGetUserById;
-    private static PreparedStatement psGetCategoryById; 
+    private static PreparedStatement psGetCategoryById;
     private static PreparedStatement psGetMessages;
     private static PreparedStatement psGetThreadById;
     private static PreparedStatement psGetMessageById;
@@ -39,6 +39,8 @@ public class DaoRetro {
     private static PreparedStatement psSendMessage;
     private static PreparedStatement psCreateThread;
     private static PreparedStatement psGetUserThreads;
+    private static PreparedStatement psGetLastCategoryPage;
+    private static PreparedStatement psGetLastUserThreadsPage;
 
     static {
         //Para el driver nuevo
@@ -67,7 +69,9 @@ public class DaoRetro {
             String sqlCreateThread = "insert into thread (title, user, category) values (?, ?, ?)";
             String sqlGetUserThreads = "select id, title, user, category "
                     + "from thread where user = ? order by id desc limit ?,50";
-            
+            String sqlGetLastCategoryPage = "select count(*) as threads from thread where category = ?";
+            String sqlGetLastUserThreadsPage = "select count(*) as threads from thread where user = ?";
+
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
             psGetUserByUsername = cn.prepareStatement(sqlGetUserByUsername);
@@ -81,6 +85,8 @@ public class DaoRetro {
             psSendMessage = cn.prepareStatement(sqlSendMessage);
             psCreateThread = cn.prepareStatement(sqlCreateThread, Statement.RETURN_GENERATED_KEYS);
             psGetUserThreads = cn.prepareStatement(sqlGetUserThreads);
+            psGetLastCategoryPage = cn.prepareStatement(sqlGetLastCategoryPage);
+            psGetLastUserThreadsPage = cn.prepareStatement(sqlGetLastUserThreadsPage);
         } catch (SQLException ex) {
         }
     }
@@ -147,8 +153,8 @@ public class DaoRetro {
         }
         return null;
     }
-    
-    public static User getUserById (Integer id) {
+
+    public static User getUserById(Integer id) {
         try {
             psGetUserById.setInt(1, id);
             ResultSet rs = psGetUserById.executeQuery();
@@ -168,30 +174,32 @@ public class DaoRetro {
         }
         return null;
     }
-    
-    public static Category getCategoryById (Integer id) {
+
+    public static Category getCategoryById(Integer id) {
         try {
             psGetCategoryById.setInt(1, id);
             ResultSet rs = psGetCategoryById.executeQuery();
-           if (rs.next())
-               return new Category(rs.getInt("id")
-                       , rs.getString("name")
-                       , rs.getString("description"));
+            if (rs.next()) {
+                return new Category(rs.getInt("id"),
+                         rs.getString("name"),
+                         rs.getString("description"));
+            }
         } catch (SQLException ex) {
             System.err.println("Error en getCategoryById: " + ex.getMessage());
         }
         return null;
     }
-    
-    public static ForumThread getThreadById (Integer id) {
+
+    public static ForumThread getThreadById(Integer id) {
         try {
             psGetThreadById.setInt(1, id);
             ResultSet rs = psGetThreadById.executeQuery();
-            if (rs.next())
-                return new ForumThread(rs.getInt("id")
-                        , rs.getString("title")
-                        , getUserById(rs.getInt("user"))
-                        , getCategoryById(rs.getInt("category")));
+            if (rs.next()) {
+                return new ForumThread(rs.getInt("id"),
+                         rs.getString("title"),
+                         getUserById(rs.getInt("user")),
+                         getCategoryById(rs.getInt("category")));
+            }
         } catch (SQLException ex) {
             System.err.println("Error en getThreadById: " + ex.getMessage());
         }
@@ -206,69 +214,71 @@ public class DaoRetro {
             psGetThreads.setInt(2, msgFrom);
             ResultSet rs = psGetThreads.executeQuery();
             while (rs.next()) {
-                ForumThread thread = new ForumThread(rs.getInt("id")
-                        ,rs.getString("title"),
+                ForumThread thread = new ForumThread(rs.getInt("id"),
+                         rs.getString("title"),
                         getUserById(rs.getInt("user")),
                         getCategoryById(rs.getInt("category")));
                 list.add(thread);
             }
-            if (!list.isEmpty())
+            if (!list.isEmpty()) {
                 return list;
+            }
         } catch (SQLException ex) {
             System.err.println("Error en getThreads: " + ex.getMessage());
         }
         return null;
     }
-    
-    public static Message getMessageById (Integer id) {
+
+    public static Message getMessageById(Integer id) {
         try {
             psGetMessageById.setInt(1, id);
             ResultSet rs = psGetMessageById.executeQuery();
             if (rs.next()) {
-                return new Message(rs.getInt("id")
-                        , rs.getString("content")
-                        , getUserById(rs.getInt("user"))
-                        , rs.getDate("date")
-                        , getThreadById(rs.getInt("thread")));
+                return new Message(rs.getInt("id"),
+                         rs.getString("content"),
+                         getUserById(rs.getInt("user")),
+                         rs.getDate("date"),
+                         getThreadById(rs.getInt("thread")));
             }
         } catch (SQLException ex) {
             System.err.println("Error en getMessageById: " + ex.getMessage());
         }
         return null;
     }
-    
-    public static Collection<Message> getMessages (Integer threadId, Integer page) {
+
+    public static Collection<Message> getMessages(Integer threadId, Integer page) {
         try {
             psGetMessages.setInt(1, threadId);
-            psGetMessages.setInt(2, page*50);
+            psGetMessages.setInt(2, page * 50);
             ResultSet rs = psGetMessages.executeQuery();
             ArrayList<Message> list = new ArrayList<Message>();
             while (rs.next()) {
-                Message msg = new Message(rs.getInt("id")
-                        , rs.getString("content")
-                        , getUserById(rs.getInt("user"))
-                        , rs.getDate("date")
-                        , getThreadById(rs.getInt("thread")));
-                if(rs.getInt("quote")!=0) {
+                Message msg = new Message(rs.getInt("id"),
+                         rs.getString("content"),
+                         getUserById(rs.getInt("user")),
+                         rs.getDate("date"),
+                         getThreadById(rs.getInt("thread")));
+                if (rs.getInt("quote") != 0) {
                     Message quoted = getMessageById(rs.getInt("quote"));
                 }
                 list.add(msg);
             }
-            if (!list.isEmpty())
+            if (!list.isEmpty()) {
                 return list;
+            }
         } catch (SQLException ex) {
             System.err.println("Error en getMessages: " + ex.getMessage());
         }
         return null;
     }
-    
-    public static int getLastThreadPage (ForumThread thread) {
+
+    public static int getLastThreadPage(ForumThread thread) {
         try {
             Integer id = thread.getId();
             psGetLastThreadPage.setInt(1, id);
             ResultSet rs = psGetLastThreadPage.executeQuery();
             if (rs.next()) {
-                Integer page = rs.getInt("messages")/50;
+                Integer page = rs.getInt("messages") / 50;
                 return page;
             }
         } catch (SQLException ex) {
@@ -276,8 +286,38 @@ public class DaoRetro {
         }
         return 0;
     }
+
+    public static int getLastCategoryPage(Category category) {
+                try {
+            Integer id = category.getId();
+            psGetLastCategoryPage.setInt(1, id);
+            ResultSet rs = psGetLastCategoryPage.executeQuery();
+            if (rs.next()) {
+                Integer page = rs.getInt("threads") / 50;
+                return page;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastCategoryPage: " + ex.getMessage());
+        }
+        return 0;
+    }
     
-    public static boolean sendMessage (User user, ForumThread thread, String content) {
+        public static int getLastUserThreadsPage(User user) {
+                try {
+            Integer id = user.getId();
+            psGetLastUserThreadsPage.setInt(1, id);
+            ResultSet rs = psGetLastUserThreadsPage.executeQuery();
+            if (rs.next()) {
+                Integer page = rs.getInt("threads") / 50;
+                return page;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastUserThreadsPage: " + ex.getMessage());
+        }
+        return 0;
+    }
+
+    public static boolean sendMessage(User user, ForumThread thread, String content) {
         try {
             psSendMessage.setString(1, content);
             psSendMessage.setInt(2, user.getId());
@@ -289,36 +329,39 @@ public class DaoRetro {
         }
         return false;
     }
-    
-    public static ForumThread createNewThread (Category category, User user, String title, String content) {
+
+    public static ForumThread createNewThread(Category category, User user, String title, String content) {
         try {
             psCreateThread.setString(1, title);
             psCreateThread.setInt(2, user.getId());
             psCreateThread.setInt(3, category.getId());
-            
+
             psCreateThread.execute();
-            
+
             ResultSet rs = psCreateThread.getGeneratedKeys();
             if (rs.next()) {
                 Integer threadId = rs.getInt(1);
-                if (threadId != 0) 
+                if (threadId != 0) {
                     if (sendMessage(
-                        user,
-                        getThreadById(threadId),
-                        content)
-                    ) return getThreadById(threadId);
-                else
-                    return null;
-            } else
+                            user,
+                            getThreadById(threadId),
+                            content)) {
+                        return getThreadById(threadId);
+                    } else {
+                        return null;
+                    }
+                }
+            } else {
                 return null;
-            
+            }
+
         } catch (SQLException ex) {
             System.err.println("Error en createNewThread: " + ex.getMessage());
         }
         return null;
     }
-    
-        public static Collection<ForumThread> getUserThreads(Integer userId, Integer page) {
+
+    public static Collection<ForumThread> getUserThreads(Integer userId, Integer page) {
         ArrayList<ForumThread> list = new ArrayList<ForumThread>();
         try {
             Integer msgFrom = page * 50;
@@ -326,14 +369,15 @@ public class DaoRetro {
             psGetThreads.setInt(2, msgFrom);
             ResultSet rs = psGetThreads.executeQuery();
             while (rs.next()) {
-                ForumThread thread = new ForumThread(rs.getInt("id")
-                        ,rs.getString("title"),
+                ForumThread thread = new ForumThread(rs.getInt("id"),
+                         rs.getString("title"),
                         getUserById(rs.getInt("user")),
                         getCategoryById(rs.getInt("category")));
                 list.add(thread);
             }
-            if (!list.isEmpty())
+            if (!list.isEmpty()) {
                 return list;
+            }
         } catch (SQLException ex) {
             System.err.println("Error en getUserThreads: " + ex.getMessage());
         }
