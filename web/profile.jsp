@@ -42,7 +42,7 @@
         <%
             if (viewUser.getAvatar() != null && !viewUser.getAvatar().isEmpty()) {
         %>       
-        <img style="width: 50; height: 50" alt="avatar" src="<%=viewUser.getAvatar()%>">
+        <img style="width: 50px; height: 50px" alt="avatar" src="<%=viewUser.getAvatar()%>">
         <%
             }
         %>

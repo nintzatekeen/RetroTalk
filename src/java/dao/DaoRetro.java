@@ -41,6 +41,7 @@ public class DaoRetro {
     private static PreparedStatement psGetUserThreads;
     private static PreparedStatement psGetLastCategoryPage;
     private static PreparedStatement psGetLastUserThreadsPage;
+    private static PreparedStatement psUpdateUser;
 
     static {
         //Para el driver nuevo
@@ -71,6 +72,7 @@ public class DaoRetro {
                     + "from thread where user = ? order by id desc limit ?,50";
             String sqlGetLastCategoryPage = "select count(*) as threads from thread where category = ?";
             String sqlGetLastUserThreadsPage = "select count(*) as threads from thread where user = ?";
+            String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
 
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
@@ -87,6 +89,7 @@ public class DaoRetro {
             psGetUserThreads = cn.prepareStatement(sqlGetUserThreads);
             psGetLastCategoryPage = cn.prepareStatement(sqlGetLastCategoryPage);
             psGetLastUserThreadsPage = cn.prepareStatement(sqlGetLastUserThreadsPage);
+            psUpdateUser = cn.prepareStatement(sqlUpdateUser);
         } catch (SQLException ex) {
         }
     }
@@ -382,5 +385,19 @@ public class DaoRetro {
             System.err.println("Error en getUserThreads: " + ex.getMessage());
         }
         return null;
+    }
+    
+    public static boolean updateUser(User user) {
+         try {
+             psUpdateUser.setString(1, user.getAvatar());
+             psUpdateUser.setString(2, user.getBio());
+             psUpdateUser.setString(3, user.getEmail());
+             psUpdateUser.setString(4, user.getPassword());
+             psUpdateUser.setInt(5, user.getId());
+             return psUpdateUser.executeUpdate() != 0;
+         } catch (SQLException ex) {
+            System.err.println("Error en updateUser: " + ex.getMessage());
+            return false;
+        }
     }
 }
