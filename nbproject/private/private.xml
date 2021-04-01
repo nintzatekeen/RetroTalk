@@ -21,6 +21,7 @@
         <group name="ProyectosNetBeans">
             <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/login.jsp</file>
             <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/dao/AdminDAO.java</file>
             <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/threads.jsp</file>
             <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/dao/DaoRetro.java</file>
         </group>
