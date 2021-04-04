@@ -6,6 +6,7 @@
 package beans;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -89,6 +90,48 @@ public class User {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.bio, other.bio)) {
+            return false;
+        }
+        if (!Objects.equals(this.avatar, other.avatar)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        return true;
     }
     
     

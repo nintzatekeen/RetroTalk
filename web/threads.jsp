@@ -4,6 +4,8 @@
     Author     : dw2
 --%>
 
+<%@page import="utils.Utilities"%>
+<%@page import="beans.User"%>
 <%@page import="dao.DaoRetro"%>
 <%@page import="beans.ForumThread"%>
 <%@page import="java.util.Collection"%>
@@ -19,6 +21,9 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
     </head>
     <body>
+        <c:if test="${requestScope.error != null}">
+            <p style="color:red">${requestScope.error}</p>
+        </c:if>
         <c:choose>
             <c:when test="${param.cat != null}">
                 <a href="createThread.jsp?cat=${param.cat}">CREAR HILO</a>
@@ -26,9 +31,20 @@
                     try {
                         Integer cat = Integer.parseInt(request.getParameter("cat"));
                         Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
-                        Collection<ForumThread> threads = dao.DaoRetro.getThreads(cat, pag);
-                        out.print("<ul>");
-                        for (ForumThread thread : threads) {
+                        User user = (User) session.getAttribute("user");
+                        if (Utilities.checkAdmin(user)) {
+                %>
+
+
+                <form method="post" action="CategoryRemoveServlet">
+                    <input type="hidden" name="category" value="<%=cat%>"/>
+                    <input type="submit" name="submit" value="BORRAR CATEGORÍA"/>
+                </form>
+                <%
+                    }
+                    Collection<ForumThread> threads = dao.DaoRetro.getThreads(cat, pag);
+                    out.print("<ul>");
+                    for (ForumThread thread : threads) {
                 %>
             <li><a href='thread.jsp?thread=<%=thread.getId()%>'><%=thread.getTitle()%></a></li>
                 <%

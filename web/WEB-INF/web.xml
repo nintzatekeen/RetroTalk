@@ -24,6 +24,22 @@
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-class>servlets.ProfileServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MessageRemoveServlet</servlet-name>
+        <servlet-class>servlets.MessageRemoveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThreadRemoveServlet</servlet-name>
+        <servlet-class>servlets.ThreadRemoveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NewCategoryServlet</servlet-name>
+        <servlet-class>servlets.NewCategoryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CategoryRemoveServlet</servlet-name>
+        <servlet-class>servlets.CategoryRemoveServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistryServlet</servlet-name>
         <url-pattern>/RegistryServlet</url-pattern>
@@ -43,6 +59,22 @@
     <servlet-mapping>
         <servlet-name>ProfileServlet</servlet-name>
         <url-pattern>/ProfileServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MessageRemoveServlet</servlet-name>
+        <url-pattern>/MessageRemoveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThreadRemoveServlet</servlet-name>
+        <url-pattern>/ThreadRemoveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewCategoryServlet</servlet-name>
+        <url-pattern>/NewCategoryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoryRemoveServlet</servlet-name>
+        <url-pattern>/CategoryRemoveServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

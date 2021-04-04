@@ -4,6 +4,7 @@
     Author     : ACER
 --%>
 
+<%@page import="beans.User"%>
 <%@page import="beans.Category"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.DaoRetro"%>
@@ -15,14 +16,23 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <%
+            User user = (User) session.getAttribute("user");
+            if (utils.Utilities.checkAdmin(user)) {
+        %>
+        <a href ="createCategory.jsp">CREAR CATEGORÍA</a>
+        <%
+            }
+        %>
+
         <ul>
             <%
                 List<Category> list = dao.DaoRetro.getCategories();
-                for(Category c : list) {
+                for (Category c : list) {
             %>
             <li><a href='threads.jsp?cat=<%=c.getId()%>'><%=c.getName()%></a></li>
             <%
-            }
+                }
             %>
         </ul>
     </body>
