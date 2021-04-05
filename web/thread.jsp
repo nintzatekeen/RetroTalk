@@ -14,6 +14,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <script>
+            window.onload = () => {
+                var btns = document.getElementsByClassName("quoteBtn");
+
+                for (let i = 0; i < btns.length; i++) {
+                    btns[i].addEventListener("click", e => {
+                        let id = e.target.name;
+                        document.getElementById("area").value += "[quote]" + id + "[/quote]";
+                    });
+                }
+            }
+
+        </script>
     </head>
     <body>
         <%
@@ -38,10 +51,20 @@
                     User msgUser = msg.getUser();
             %>
             <li><a href="profile.jsp?user=<%=msgUser.getId()%>"><%=msgUser.getUsername()%></a></li>
-            <li><%=msg.getContent()%></li>
+            <li>
+
+                <%=Utilities.formatMsgOutput(msg.getContent())%>
                 <%
-                    if (isAdmin) {
+                    if (request.getSession().getAttribute("user") != null) {
                 %>
+                <input type="button" class="quoteBtn" name="<%=msg.getId()%>" value="CITAR"/>
+                <%
+                    }
+                %>
+            </li>
+            <%
+                if (isAdmin) {
+            %>
             <form method="post" action="MessageRemoveServlet">
                 <input type="hidden" name="messageId" value="<%=msg.getId()%>"/>
                 <input type="submit" name="submit" value="Borrar mensaje"/>
@@ -55,7 +78,7 @@
         %>
         <form method="post" action="ServletMessage"> <!--enctype="multipart/form-data"-->
             <input type="hidden" name="thread" value="<%=thread%>"/>
-            <textarea name="message" cols="80" rows="10"></textarea>
+            <textarea id="area" name="message" cols="80" rows="10"></textarea>
             <input type="submit" name="submit" value="ENVIAR"/>
         </form>
         <%
