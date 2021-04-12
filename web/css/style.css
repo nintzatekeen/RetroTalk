@@ -1,0 +1,57 @@
+.header{
+    height: 40vh;
+    background-color: black;
+    color: white;
+    text-align: center;
+    background-image: url('../images/banner2_1.jpg');
+    min-height: 200px;
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: repeat;
+    background-size: 100% auto;
+}
+
+.logo{
+    height: 200px;
+}
+
+.menu{
+    background-color:   #e242ff  ;
+}
+
+.dropdown-menu-right {
+  margin-right: 100px;
+}
+
+.titulo{
+    color: white;
+    font-size: 45px; 
+    text-align: center;
+    border-bottom: 2px solid  #636363  ;
+    padding: 10px;
+    text-shadow: 0px 0px 10px #e242ff;
+}
+
+
+.principal{
+   -webkit-box-shadow: 3px 3px 5px 3px #e242ff, -7px -5px 15px 5px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0); 
+    box-shadow: 4px 3px 15px 2px #e242ff, -2px -5px 15px 4px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0);
+    border-top: 3px solid #00ccff;
+    border-left: 3px solid #00ccff;
+    border-bottom: 3px solid #e242ff;
+    border-right: 3px solid #e242ff;
+    background-color:    #333333;
+}
+
+.input-group-prepend span{
+width: 50px;
+background-color: #e242ff;
+color: white;
+border:0 !important;
+}
+
+input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
+
+}
