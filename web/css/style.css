@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Retro';
+  src: url('../fonts/joystix monospace.ttf');
+}
+
 .header{
     height: 40vh;
     background-color: black;
@@ -25,22 +30,60 @@
 
 .titulo{
     color: white;
-    font-size: 45px; 
+    font-size: 40px; 
     text-align: center;
     border-bottom: 2px solid  #636363  ;
     padding: 10px;
     text-shadow: 0px 0px 10px #e242ff;
+    font-family: 'Retro';
 }
 
+.colorfondo{
+    background-color:    #333333;
+}
 
-.principal{
+.icono{
+    background-color: #e242ff;
+    height: 70px;
+    width: 70px;
+    line-height: 70px;
+    text-align: center;
+    vertical-align: central;
+}
+
+.icono i{
+    font-size: 50px;
+    margin-top: 10px;
+    color: #333333;
+}
+
+.fotoPerfil{
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.headerHilo{
+    background-color:  #545454 ;
+    height: 30px;
+}
+
+.headerHilo div div{
+    border-left: 1px solid #333333; 
+    border-right: 1px solid #333333; 
+}
+
+.hilo{
+    border-bottom: 1px solid #545454;
+    
+}
+
+.bordeneon{
    -webkit-box-shadow: 3px 3px 5px 3px #e242ff, -7px -5px 15px 5px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0); 
     box-shadow: 4px 3px 15px 2px #e242ff, -2px -5px 15px 4px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0);
     border-top: 3px solid #00ccff;
     border-left: 3px solid #00ccff;
     border-bottom: 3px solid #e242ff;
     border-right: 3px solid #e242ff;
-    background-color:    #333333;
 }
 
 .input-group-prepend span{
@@ -54,4 +97,79 @@ input:focus{
 outline: 0 0 0 0  !important;
 box-shadow: 0 0 0 0 !important;
 
+}
+
+h3{
+    text-shadow: 0px 0px 10px #e242ff;
+    font-weight: bold;
+    font-family: 'Retro';
+    font-size: 25px;
+}
+
+h4{
+    text-shadow: 0px 0px 10px #e242ff;
+    font-weight: bold;
+    font-family: 'Retro';
+    font-size: 15px;
+}
+
+.descripcion{
+    color:#DEDEDE;
+    border-bottom: 1px solid grey;
+}
+
+.categoria{
+    background-color:#393939;
+    padding: 30px 10px 30px 10px;
+    transition: transform 0.5s, box-shadow 0.3s  ;
+    color: white;
+}
+
+a{
+    text-decoration:none;
+}
+
+.categoria:hover{
+    box-shadow: 0px 0px 10px grey;
+    transform: scale(1.01); 
+}
+
+.navegador li {
+    margin: 0px 10px 0px 10px;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+
+.navegador li a{
+    background-color: transparent !important;
+    border: none;
+    color: white;
+
+}
+
+.navegador li:hover{
+    background-color: #e242ff;
+    color: white !important;
+
+}
+
+.navegador li:hover a{
+    color: white !important;
+
+}
+
+.navegador .active{
+    background-color: #e242ff !important;
+}
+
+.flechas{
+    background-color: #e242ff ;
+}
+
+.deshabilitado{
+    background-color:  #9b6c97 ;
+}
+
+.flechas:hover{
+    background-color:  #fc14ea  !important;
 }
