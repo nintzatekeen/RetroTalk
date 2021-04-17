@@ -130,7 +130,7 @@
                                         <h3><%=c.getName()%></h3>
                                         <p class="descripcion"><%=c.getDescription()%></p>
                                     </div>
-                                </div>
+                                </div> 
                             </a>
                         </div>
 
