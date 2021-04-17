@@ -12,8 +12,7 @@ package beans;
 public class Category {
 
     int id;
-    String name,
-            description;
+    String name, description, icon;
 
     public Category() {
     }
@@ -22,6 +21,12 @@ public class Category {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+        public Category(int id, String name, String description, String icon) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.icon = icon;
     }
 
     public int getId() {
@@ -46,6 +51,14 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
     
     

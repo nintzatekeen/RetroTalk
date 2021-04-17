@@ -9,11 +9,8 @@
 <%@page import="beans.Message"%>
 <%@page import="java.util.Collection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+<!--IMPORTACIÓN DEL HEADER-->
+<jsp:include page="header.jsp" />
         <script>
             window.onload = () => {
                 var btns = document.getElementsByClassName("quoteBtn");
@@ -27,8 +24,6 @@
             }
 
         </script>
-    </head>
-    <body>
         <%
             try {
                 Integer thread = Integer.parseInt(request.getParameter("thread"));
@@ -89,5 +84,5 @@
         <%
             }
         %>
-    </body>
-</html>
+<!--IMPORTACIÓN DEL FOOTER-->
+<jsp:include page="footer.jsp" />

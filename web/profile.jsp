@@ -16,20 +16,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script>
-            window.onload = () => {
-                let buttons = document.getElementsByClassName("editBtn");
-                for (let i = 0; i < buttons.length; i++) {
-                    buttons[i].addEventListener("click", e => {
-                        //Todos los botones deben comenzar con la palabra "edit" seguido del id del elemento referenciado
-                        let id = e.target.idtoLowerCase().substring(4);
-                        let element = document.getElementById(id);
-                        element.value
-                    });
-                }
-            }
-
-        </script>
     </head>
     <body>
         <%

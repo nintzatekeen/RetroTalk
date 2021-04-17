@@ -31,6 +31,7 @@ public class NewCategoryServlet extends HttpServlet {
         String idStr = request.getParameter("categoryId");
         String name = request.getParameter("categoryName");
         String desc = request.getParameter("categoryDescription");
+        String icon = request.getParameter("categoryIcon");
 
         try {
             if (name.isEmpty()) {
@@ -43,7 +44,11 @@ public class NewCategoryServlet extends HttpServlet {
                 } catch (NumberFormatException e) {
                     id = 0;
                 }
-                Category newCat = new Category(id, name, desc);
+                
+                if (icon != null && icon.isEmpty())
+                    icon = null;
+                
+                Category newCat = new Category(id, name, desc, icon);
                 if (!dao.AdminDAO.createCategory(newCat)) {
                     request.setAttribute("error", "No se pudo crear la categoría");
                     request.getRequestDispatcher("createCategory.jsp").forward(request, response);

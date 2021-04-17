@@ -5,6 +5,8 @@
  */
 package beans;
 
+import dao.DaoRetro;
+
 /**
  *
  * @author ACER
@@ -57,5 +59,11 @@ public class ForumThread {
         this.category = category;
     }
     
+    public Message getLastMessage() {
+        return DaoRetro.getLastThreadMessage(id);
+    }
     
+    public int getMessageCount() {
+        return DaoRetro.getMessageCountByThread(id);
+    }
 }

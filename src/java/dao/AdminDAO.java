@@ -6,7 +6,6 @@
 package dao;
 
 import beans.Category;
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,7 +53,7 @@ public class AdminDAO {
             String sqlRemoveUser = "delete from user where id = ?";
             String sqlDeleteMessagesFromUser = "delete from message where user = ?";
             String sqlDeleteThreadsFromUser = "delete from thread where user = ?";
-            String sqlCreateCategory = "insert into category (id, name, description) values (?,?,?)";
+            String sqlCreateCategory = "insert into category (id, name, description, icon) values (?,?,?,?)";
             
             psRemoveMessage = cn.prepareStatement(sqlRemoveMessage);
             psRemoveThread = cn.prepareStatement(sqlRemoveThread);
@@ -187,6 +186,7 @@ public class AdminDAO {
             psCreateCategory.setInt(1, category.getId());
             psCreateCategory.setString(2, category.getName());
             psCreateCategory.setString(3, category.getDescription());
+            psCreateCategory.setString(4, category.getIcon());
             return psCreateCategory.executeUpdate() > 0;
         } catch (NullPointerException ex) {
             System.err.println("Categoría nula pasada como parámetro en createCategory: " + ex.getMessage());

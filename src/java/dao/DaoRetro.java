@@ -17,6 +17,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -96,7 +98,7 @@ public class DaoRetro {
     }
 
     public static List<Category> getCategories() {
-        String sql = "select id, name, description from category";
+        String sql = "select id, name, description, icon from category";
         ArrayList<Category> list = new ArrayList<Category>();
         try (Connection cn = ds.getConnection();
                 Statement st = cn.createStatement();
@@ -104,7 +106,8 @@ public class DaoRetro {
             while (rs.next()) {
                 Category category = new Category(rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getString("description"));
+                        rs.getString("description"),
+                        rs.getString("icon"));
                 list.add(category);
             }
         } catch (SQLException ex) {
@@ -186,7 +189,8 @@ public class DaoRetro {
             if (rs.next()) {
                 return new Category(rs.getInt("id"),
                         rs.getString("name"),
-                        rs.getString("description"));
+                        rs.getString("description"),
+                        rs.getString("icon"));
             }
         } catch (SQLException ex) {
             System.err.println("Error en getCategoryById: " + ex.getMessage());
@@ -399,5 +403,32 @@ public class DaoRetro {
             System.err.println("Error en updateUser: " + ex.getMessage());
             return false;
         }
+    }
+    
+    public static Message getLastThreadMessage (int threadId) {
+        String sql = "select id from message m1"
+                + " where thread = " + threadId + " and "
+                + "(select max(id) from message m2 where thread = " + threadId +")"
+                + " = m1.id";
+        try (Connection cn = ds.getConnection();
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            return getMessageById(rs.getInt("id"));
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastThreadMessage: " + ex.getMessage());
+            return null;
+        } 
+    }
+    
+    public static int getMessageCountByThread (int threadId) {
+        String sql = "select count(id) as messages from message where thread = " + threadId;
+        try (Connection cn = ds.getConnection();
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            return rs.getInt("message");
+        } catch (SQLException ex) {
+            System.err.println("Error en getMessageCountByThread: " + ex.getMessage());
+            return -1;
+        } 
     }
 }
