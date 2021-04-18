@@ -16,10 +16,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
+import utils.Utilities;
 
 /**
  *
@@ -44,6 +46,8 @@ public class DaoRetro {
     private static PreparedStatement psGetLastCategoryPage;
     private static PreparedStatement psGetLastUserThreadsPage;
     private static PreparedStatement psUpdateUser;
+    private static PreparedStatement psSearchThreads;
+    private static PreparedStatement psGetLastSearchThread;
 
     static {
         //Para el driver nuevo
@@ -63,7 +67,7 @@ public class DaoRetro {
             String sqlGetUserByUsername = "select id, username, password, email, bio, avatar, date from user where username=?";
             String sqlGetThreads = "select id, title, user, category from thread where category = ? order by id desc limit ?,50";
             String sqlGetUserById = "select id, username, password, email, bio, avatar, date from user where id=?";
-            String sqlGetCategoryById = "select id, name, description from category where id = ?";
+            String sqlGetCategoryById = "select id, name, description, icon from category where id = ?";
             String sqlGetMessages = "select id, content, user, thread, date, quote from message where thread = ? limit ?,50";
             String sqlGetThreadById = "select id, title, user, category from thread where id = ?";
             String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
@@ -75,6 +79,8 @@ public class DaoRetro {
             String sqlGetLastCategoryPage = "select count(*) as threads from thread where category = ?";
             String sqlGetLastUserThreadsPage = "select count(*) as threads from thread where user = ?";
             String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
+            String sqlSearchThreads = "select id, title, user, category from thread where upper(title) like upper(?) order by id desc limit ?, 50";
+            String sqlGetLastSearchThread = "select count(*) as threads from thread where upper(title) like upper(?)";
 
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
             psInsertUser = cn.prepareStatement(sqlInsertUser);
@@ -92,8 +98,10 @@ public class DaoRetro {
             psGetLastCategoryPage = cn.prepareStatement(sqlGetLastCategoryPage);
             psGetLastUserThreadsPage = cn.prepareStatement(sqlGetLastUserThreadsPage);
             psUpdateUser = cn.prepareStatement(sqlUpdateUser);
+            psSearchThreads = cn.prepareStatement(sqlSearchThreads);
+            psGetLastSearchThread = cn.prepareStatement(sqlGetLastSearchThread);
         } catch (SQLException ex) {
-            System.err.println("Error al crear los preparedstatements: "+ex.getMessage());
+            System.err.println("Error al crear los preparedstatements: " + ex.getMessage());
         }
     }
 
@@ -404,11 +412,11 @@ public class DaoRetro {
             return false;
         }
     }
-    
-    public static Message getLastThreadMessage (int threadId) {
+
+    public static Message getLastThreadMessage(int threadId) {
         String sql = "select id from message m1"
                 + " where thread = " + threadId + " and "
-                + "(select max(id) from message m2 where thread = " + threadId +")"
+                + "(select max(id) from message m2 where thread = " + threadId + ")"
                 + " = m1.id";
         try (Connection cn = ds.getConnection();
                 Statement st = cn.createStatement();
@@ -417,10 +425,10 @@ public class DaoRetro {
         } catch (SQLException ex) {
             System.err.println("Error en getLastThreadMessage: " + ex.getMessage());
             return null;
-        } 
+        }
     }
-    
-    public static int getMessageCountByThread (int threadId) {
+
+    public static int getMessageCountByThread(int threadId) {
         String sql = "select count(id) as messages from message where thread = " + threadId;
         try (Connection cn = ds.getConnection();
                 Statement st = cn.createStatement();
@@ -429,6 +437,44 @@ public class DaoRetro {
         } catch (SQLException ex) {
             System.err.println("Error en getMessageCountByThread: " + ex.getMessage());
             return -1;
-        } 
+        }
+    }
+
+    public static Collection<ForumThread> searchThreads(String text, Integer page) {
+        try {
+            if (text != null && !text.isEmpty()) {
+                text = Utilities.format4Like(text);
+                page = page != null ? page : 0;
+
+                psSearchThreads.setString(1, text);
+                psSearchThreads.setInt(2, page);
+                ResultSet rs = psSearchThreads.executeQuery();
+                LinkedList<ForumThread> threads = new LinkedList<ForumThread>();
+                while (rs.next()) {
+                    threads.add(new ForumThread(rs.getInt("id"),
+                             rs.getString("title"),
+                             getUserById(rs.getInt("user")),
+                             getCategoryById(rs.getInt("category"))));
+                }
+                return threads;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en searchThreads: " + ex.getMessage());
+        }
+        return null;
+    }
+
+    public static int getLastSearchThread(String text) {
+        try {
+            if (text != null && !text.isEmpty()) {
+                psGetLastSearchThread.setString(1, Utilities.format4Like(text));
+                ResultSet rs = psGetLastSearchThread.executeQuery();
+                if (rs.next())
+                    return rs.getInt("threads") / 50;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastSearchThreadsPage: " + ex.getMessage());
+        }
+        return 0;
     }
 }

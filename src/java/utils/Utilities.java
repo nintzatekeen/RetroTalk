@@ -78,4 +78,11 @@ public class Utilities {
         
         return msg;
     }
+    
+    public static String format4Like (String text) {
+        return "%" + text
+                        .replaceAll("\\[", "[[]")
+                        .replaceAll("\\]", "[]]")
+                        .replaceAll("%", "[%]") + "%";
+    }
 }

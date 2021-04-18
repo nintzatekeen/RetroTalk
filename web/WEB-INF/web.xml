@@ -40,6 +40,10 @@
         <servlet-name>CategoryRemoveServlet</servlet-name>
         <servlet-class>servlets.CategoryRemoveServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>searchThreadsServlet</servlet-name>
+        <servlet-class>servlets.searchThreadsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistryServlet</servlet-name>
         <url-pattern>/RegistryServlet</url-pattern>
@@ -75,6 +79,10 @@
     <servlet-mapping>
         <servlet-name>CategoryRemoveServlet</servlet-name>
         <url-pattern>/CategoryRemoveServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>searchThreadsServlet</servlet-name>
+        <url-pattern>/searchThreadsServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

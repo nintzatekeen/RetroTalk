@@ -5,7 +5,7 @@
             <url>src/java/dao/DaoRetro.java</url>
             <bookmark id="1">
                 <name/>
-                <line>204</line>
+                <line>212</line>
                 <key/>
             </bookmark>
         </file>
@@ -19,8 +19,12 @@
             <file>file:/C:/Users/dw2/Desktop/ProyectosNetBeans/RetroTalk/src/java/beans/User.java</file>
         </group>
         <group name="ProyectosNetBeans">
-            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/beans/PrivateMessage.java</file>
-            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/beans/Product.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/threadSearch.jsp</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/index.jsp</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/utils/Utilities.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/beans/ForumThread.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/threads.jsp</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/dao/DaoRetro.java</file>
         </group>
     </open-files>
 </project-private>
