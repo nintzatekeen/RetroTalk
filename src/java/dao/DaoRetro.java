@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 import utils.Utilities;
 
@@ -28,7 +26,7 @@ import utils.Utilities;
  * @author ACER
  */
 public class DaoRetro {
-
+    private static final int MAX_RESULTS = 30;
     private static final BasicDataSource ds = new BasicDataSource();
     private static PreparedStatement psAvailableUser;
     private static PreparedStatement psInsertUser;
@@ -65,21 +63,21 @@ public class DaoRetro {
             String sqlAvailableUser = "select id from user where username = ?";
             String sqlInsertUser = "insert into user (username, password, email, date) values (?,?,?,now())";
             String sqlGetUserByUsername = "select id, username, password, email, bio, avatar, date from user where username=?";
-            String sqlGetThreads = "select id, title, user, category from thread where category = ? order by id desc limit ?,50";
+            String sqlGetThreads = "select id, title, user, category from thread where category = ? order by id desc limit ?,"+MAX_RESULTS;
             String sqlGetUserById = "select id, username, password, email, bio, avatar, date from user where id=?";
             String sqlGetCategoryById = "select id, name, description, icon from category where id = ?";
-            String sqlGetMessages = "select id, content, user, thread, date, quote from message where thread = ? limit ?,50";
+            String sqlGetMessages = "select id, content, user, thread, date, quote from message where thread = ? limit ?,"+MAX_RESULTS;
             String sqlGetThreadById = "select id, title, user, category from thread where id = ?";
             String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
             String sqlGetLastThreadPage = "select count(*) as messages from message where thread = ?";
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
             String sqlCreateThread = "insert into thread (title, user, category) values (?, ?, ?)";
             String sqlGetUserThreads = "select id, title, user, category "
-                    + "from thread where user = ? order by id desc limit ?,50";
+                    + "from thread where user = ? order by id desc limit ?,"+MAX_RESULTS;
             String sqlGetLastCategoryPage = "select count(*) as threads from thread where category = ?";
             String sqlGetLastUserThreadsPage = "select count(*) as threads from thread where user = ?";
             String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
-            String sqlSearchThreads = "select id, title, user, category from thread where upper(title) like upper(?) order by id desc limit ?, 50";
+            String sqlSearchThreads = "select id, title, user, category from thread where upper(title) like upper(?) order by id desc limit ?, "+MAX_RESULTS;
             String sqlGetLastSearchThread = "select count(*) as threads from thread where upper(title) like upper(?)";
 
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
@@ -225,7 +223,7 @@ public class DaoRetro {
     public static Collection<ForumThread> getThreads(Integer categoryId, Integer page) {
         ArrayList<ForumThread> list = new ArrayList<ForumThread>();
         try {
-            Integer msgFrom = page * 50;
+            Integer msgFrom = page * MAX_RESULTS;
             psGetThreads.setInt(1, categoryId);
             psGetThreads.setInt(2, msgFrom);
             ResultSet rs = psGetThreads.executeQuery();
@@ -265,7 +263,7 @@ public class DaoRetro {
     public static Collection<Message> getMessages(Integer threadId, Integer page) {
         try {
             psGetMessages.setInt(1, threadId);
-            psGetMessages.setInt(2, page * 50);
+            psGetMessages.setInt(2, page * MAX_RESULTS);
             ResultSet rs = psGetMessages.executeQuery();
             ArrayList<Message> list = new ArrayList<Message>();
             while (rs.next()) {
@@ -294,7 +292,7 @@ public class DaoRetro {
             psGetLastThreadPage.setInt(1, id);
             ResultSet rs = psGetLastThreadPage.executeQuery();
             if (rs.next()) {
-                Integer page = rs.getInt("messages") / 50;
+                Integer page = rs.getInt("messages") / MAX_RESULTS;
                 return page;
             }
         } catch (SQLException ex) {
@@ -308,7 +306,7 @@ public class DaoRetro {
             psGetLastCategoryPage.setInt(1, id);
             ResultSet rs = psGetLastCategoryPage.executeQuery();
             if (rs.next()) {
-                Integer page = rs.getInt("threads") / 50;
+                Integer page = rs.getInt("threads") / MAX_RESULTS;
                 return page;
             }
         } catch (SQLException ex) {
@@ -323,7 +321,7 @@ public class DaoRetro {
             psGetLastUserThreadsPage.setInt(1, id);
             ResultSet rs = psGetLastUserThreadsPage.executeQuery();
             if (rs.next()) {
-                Integer page = rs.getInt("threads") / 50;
+                Integer page = rs.getInt("threads") / MAX_RESULTS;
                 return page;
             }
         } catch (SQLException ex) {
@@ -379,7 +377,7 @@ public class DaoRetro {
     public static Collection<ForumThread> getUserThreads(Integer userId, Integer page) {
         ArrayList<ForumThread> list = new ArrayList<ForumThread>();
         try {
-            Integer msgFrom = page * 50;
+            Integer msgFrom = page * MAX_RESULTS;
             psGetUserThreads.setInt(1, userId);
             psGetUserThreads.setInt(2, msgFrom);
             ResultSet rs = psGetUserThreads.executeQuery();
@@ -470,7 +468,7 @@ public class DaoRetro {
                 psGetLastSearchThread.setString(1, Utilities.format4Like(text));
                 ResultSet rs = psGetLastSearchThread.executeQuery();
                 if (rs.next())
-                    return rs.getInt("threads") / 50;
+                    return rs.getInt("threads") / MAX_RESULTS;
             }
         } catch (SQLException ex) {
             System.err.println("Error en getLastSearchThreadsPage: " + ex.getMessage());
