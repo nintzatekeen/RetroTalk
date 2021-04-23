@@ -13,6 +13,7 @@ import java.util.Objects;
  * @author ACER
  */
 public class User {
+
     private int id;
     private String username,
             password,
@@ -23,9 +24,7 @@ public class User {
 
     public User() {
     }
-    
-    
-    
+
     public User(int id, String username, String password, String email, String bio, String avatar, Date date) {
         this.id = id;
         this.username = username;
@@ -133,6 +132,5 @@ public class User {
         }
         return true;
     }
-    
-    
+
 }

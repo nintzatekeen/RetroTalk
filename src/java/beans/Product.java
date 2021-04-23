@@ -14,7 +14,8 @@ import java.util.Objects;
  */
 public class Product {
 
-    private int id, idUser;
+    private int id;
+    private User user;
     private float price;
     private String title,
             description,
@@ -24,13 +25,13 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, int idUser, float price, String title, String description, String img, Date date) {
+    public Product(int id, String title, String description, float price, User user, Date date, String img) {
         this.id = id;
-        this.idUser = idUser;
+        this.user = user;
         this.price = price;
         this.title = title;
         this.description = description;
-        this.img = img;
+        this.img = img + ".jpg";
         this.date = date;
     }
 
@@ -42,12 +43,12 @@ public class Product {
         this.id = id;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public float getPrice() {
@@ -93,6 +94,13 @@ public class Product {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 59 * hash + this.id;
+        hash = 59 * hash + Objects.hashCode(this.user);
+        hash = 59 * hash + Float.floatToIntBits(this.price);
+        hash = 59 * hash + Objects.hashCode(this.title);
+        hash = 59 * hash + Objects.hashCode(this.description);
+        hash = 59 * hash + Objects.hashCode(this.img);
+        hash = 59 * hash + Objects.hashCode(this.date);
         return hash;
     }
 
@@ -111,9 +119,6 @@ public class Product {
         if (this.id != other.id) {
             return false;
         }
-        if (this.idUser != other.idUser) {
-            return false;
-        }
         if (Float.floatToIntBits(this.price) != Float.floatToIntBits(other.price)) {
             return false;
         }
@@ -124,6 +129,9 @@ public class Product {
             return false;
         }
         if (!Objects.equals(this.img, other.img)) {
+            return false;
+        }
+        if (!Objects.equals(this.user, other.user)) {
             return false;
         }
         if (!Objects.equals(this.date, other.date)) {
