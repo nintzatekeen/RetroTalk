@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -34,6 +36,8 @@ public class DaoTienda {
     private static PreparedStatement psSendMessage;
     private static PreparedStatement psUpdateUser;
     private static PreparedStatement psGetUserProducts;
+    private static PreparedStatement psGetPrivateMessagesByUser;
+    private static PreparedStatement psGetLastUserProductsPage;
 
     static {
         //Para el driver nuevo
@@ -54,6 +58,9 @@ public class DaoTienda {
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
             String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
             String sqlGetUserProducts = "select id, title, description, price, user, date, img from product where user = ? order by id desc limit ?, "+MAX_RESULTS;
+            String sqlGetPrivateMessagesByUser = "select id, user, product, message, date from private_message inner join "
+                    + "product on private_message.product = product.id where product.user = ? order by id desc limit ?, "+MAX_RESULTS;
+            String sqlGetLastUserProductsPage = "select count(*) as products from product where user = ?";
             
             psGetUserById = cn.prepareStatement(sqlGetUserById);
             psGetMessages = cn.prepareStatement(sqlGetMessages);
@@ -61,6 +68,8 @@ public class DaoTienda {
             psSendMessage = cn.prepareStatement(sqlSendMessage);
             psUpdateUser = cn.prepareStatement(sqlUpdateUser);
             psGetUserProducts = cn.prepareStatement(sqlGetUserProducts);
+            psGetPrivateMessagesByUser = cn.prepareStatement(sqlGetPrivateMessagesByUser);
+            psGetLastUserProductsPage = cn.prepareStatement(sqlGetLastUserProductsPage);
         } catch (SQLException ex) {
             System.err.println("Error al crear los preparedstatements: " + ex.getMessage());
         }
@@ -167,6 +176,40 @@ public class DaoTienda {
             System.err.println("Error en getUserProducts: " + ex.getMessage());
         }
         return null;
+    }
+    
+    public static Collection<PrivateMessage> getPrivateMessagesByUser(Integer userId, Integer page) {
+        page = page != null && page >= 0 ? page : 0;
+        LinkedList<PrivateMessage> list = new LinkedList<>();
+        try {
+            psGetPrivateMessagesByUser.setInt(1, userId);
+            psGetPrivateMessagesByUser.setInt(2, page);
+            ResultSet rs = psGetPrivateMessagesByUser.executeQuery();
+            while (rs.next()) {
+                list.add(new PrivateMessage(rs.getInt("id")
+                        , rs.getString("message")
+                        , DaoRetro.getUserById(rs.getInt("user"))
+                        , getProductById(rs.getInt("product"))
+                        , rs.getDate("date")));
+            }
+            return list;
+        } catch (SQLException ex) {
+            System.err.println("Error en getPrivateMessagesByUser: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    public static int getLastUserProductsPage (Integer userId) {
+        try {
+            psGetLastUserProductsPage.setInt(1, userId);
+            ResultSet rs = psGetLastUserProductsPage.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("products")/MAX_RESULTS;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastUserProductsPage: " + ex.getMessage());
+        }
+        return 0;
     }
 
 //    public static Message getMessageById(Integer id) {
