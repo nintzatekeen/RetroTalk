@@ -18,18 +18,19 @@
 
             ArrayList<Product> productsList = (ArrayList<Product>) session.getAttribute("productsList");
             User user = (User) session.getAttribute("user");
-
+            if (user == null) {
+                response.sendRedirect("login.jsp");
+            }
         %>
         <ul>
             <%                for (Product p : productsList) {
                     User userV = (User) p.getUser();
             %>
             <li>
-                <%=p.getTitle()%>
-                <%=p.getDescription()%>
+                <a href="product.jsp?id=<%=p.getId()%>"><%=p.getTitle()%></a>
+
                 <%=p.getPrice()%>
                 <%=p.getDate()%>
-                <%= userV.getUsername()%>
 
                 <img src="images/productos/<%=p.getImg()%>">
 

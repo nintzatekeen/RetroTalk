@@ -19,6 +19,19 @@ public class PrivateMessage {
     private Product product;
     private Date date;
 
+    public PrivateMessage() {
+    }
+
+    public PrivateMessage(int id, String content, User user, Product product, Date date) {
+        this.id = id;
+        this.content = content;
+        this.user = user;
+        this.product = product;
+        this.date = date;
+    }
+    
+    
+
     public int getId() {
         return id;
     }

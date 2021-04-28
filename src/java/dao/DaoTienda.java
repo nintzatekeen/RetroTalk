@@ -9,6 +9,7 @@ import beans.Category;
 import beans.User;
 import beans.ForumThread;
 import beans.Message;
+import beans.PrivateMessage;
 import beans.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -108,6 +109,18 @@ public class DaoTienda {
             System.err.println("Error en getUserById: " + ex.getMessage());
         }
         return null;
+    }
+
+    public static void newPrivateMessage(PrivateMessage msg) {
+        String sql = "INSERT INTO `private_message`(`user`, `product`, `message`, `date`)"
+                + " VALUES (" + msg.getUser().getId() + "," + msg.getProduct().getId() + ",'" + msg.getContent() + "',now())";
+        try (Connection cn = ds.getConnection();
+                Statement st = cn.createStatement()) {
+            st.executeUpdate(sql);
+
+        } catch (SQLException ex) {
+            System.err.println("Error en newPrivateMessage: " + ex.getMessage());
+        }
     }
 
 //    public static Message getMessageById(Integer id) {

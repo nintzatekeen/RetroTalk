@@ -16,12 +16,12 @@ public class ShopServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+        if (user != null) {
             ArrayList<Product> productsList = (ArrayList<Product>) dao.DaoTienda.getProducts();
             request.getSession().setAttribute("productsList", productsList);
             response.sendRedirect("shop.jsp");
         } else {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("shop.jsp");
         }
     }
 
