@@ -38,6 +38,7 @@ public class DaoTienda {
     private static PreparedStatement psGetUserProducts;
     private static PreparedStatement psGetPrivateMessagesByUser;
     private static PreparedStatement psGetLastUserProductsPage;
+    private static PreparedStatement psGetLastUserPrivateMessagesPage;
 
     static {
         //Para el driver nuevo
@@ -58,9 +59,11 @@ public class DaoTienda {
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
             String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
             String sqlGetUserProducts = "select id, title, description, price, user, date, img from product where user = ? order by id desc limit ?, "+MAX_RESULTS;
-            String sqlGetPrivateMessagesByUser = "select id, user, product, message, date from private_message inner join "
+            String sqlGetPrivateMessagesByUser = "select private_message.id, private_message.user, private_message.product, private_message.message, private_message.date from private_message inner join "
                     + "product on private_message.product = product.id where product.user = ? order by id desc limit ?, "+MAX_RESULTS;
             String sqlGetLastUserProductsPage = "select count(*) as products from product where user = ?";
+            String sqlGetLastUserPrivateMessagesPage = "select count(*) as messages from private_message inner join "
+                    + "product on private_message.product = product.id where product.user = ?";
             
             psGetUserById = cn.prepareStatement(sqlGetUserById);
             psGetMessages = cn.prepareStatement(sqlGetMessages);
@@ -70,6 +73,8 @@ public class DaoTienda {
             psGetUserProducts = cn.prepareStatement(sqlGetUserProducts);
             psGetPrivateMessagesByUser = cn.prepareStatement(sqlGetPrivateMessagesByUser);
             psGetLastUserProductsPage = cn.prepareStatement(sqlGetLastUserProductsPage);
+            psGetLastUserPrivateMessagesPage = cn.prepareStatement(sqlGetLastUserPrivateMessagesPage);
+            
         } catch (SQLException ex) {
             System.err.println("Error al crear los preparedstatements: " + ex.getMessage());
         }
@@ -211,6 +216,21 @@ public class DaoTienda {
         }
         return 0;
     }
+    
+        public static int getLastUserPrivateMessagesPage (Integer userId) {
+        try {
+            psGetLastUserPrivateMessagesPage.setInt(1, userId);
+            ResultSet rs = psGetLastUserPrivateMessagesPage.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("messages")/MAX_RESULTS;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getLastUserPrivateMessagesPage: " + ex.getMessage());
+        }
+        return 0;
+    }
+    
+    
 
 //    public static Message getMessageById(Integer id) {
 //        try {
