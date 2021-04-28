@@ -475,4 +475,12 @@ public class DaoRetro {
         }
         return 0;
     }
+    
+    public static Category getCategoryByThreadId(Integer threadId) {
+        if (threadId != null && threadId > 0) {
+            ForumThread thread = getThreadById(threadId);
+            return thread != null ? thread.getCategory() : null;
+        }
+        return null;
+    }
 }

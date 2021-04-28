@@ -16,7 +16,7 @@ public class Product {
 
     private int id;
     private User user;
-    private float price;
+    private double price;
     private String title,
             description,
             img;
@@ -25,7 +25,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String title, String description, float price, User user, Date date, String img) {
+    public Product(int id, String title, String description, double price, User user, Date date, String img) {
         this.id = id;
         this.user = user;
         this.price = price;
@@ -51,11 +51,11 @@ public class Product {
         this.user = user;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -93,14 +93,14 @@ public class Product {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + this.id;
-        hash = 59 * hash + Objects.hashCode(this.user);
-        hash = 59 * hash + Float.floatToIntBits(this.price);
-        hash = 59 * hash + Objects.hashCode(this.title);
-        hash = 59 * hash + Objects.hashCode(this.description);
-        hash = 59 * hash + Objects.hashCode(this.img);
-        hash = 59 * hash + Objects.hashCode(this.date);
+        int hash = 3;
+        hash = 71 * hash + this.id;
+        hash = 71 * hash + Objects.hashCode(this.user);
+        hash = 71 * hash + (int) (Double.doubleToLongBits(this.price) ^ (Double.doubleToLongBits(this.price) >>> 32));
+        hash = 71 * hash + Objects.hashCode(this.title);
+        hash = 71 * hash + Objects.hashCode(this.description);
+        hash = 71 * hash + Objects.hashCode(this.img);
+        hash = 71 * hash + Objects.hashCode(this.date);
         return hash;
     }
 
@@ -119,7 +119,7 @@ public class Product {
         if (this.id != other.id) {
             return false;
         }
-        if (Float.floatToIntBits(this.price) != Float.floatToIntBits(other.price)) {
+        if (Double.doubleToLongBits(this.price) != Double.doubleToLongBits(other.price)) {
             return false;
         }
         if (!Objects.equals(this.title, other.title)) {
@@ -139,5 +139,7 @@ public class Product {
         }
         return true;
     }
+
+
 
 }

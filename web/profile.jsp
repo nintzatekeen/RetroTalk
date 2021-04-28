@@ -36,6 +36,7 @@
             <li> Bio: <%=viewUser.getBio() != null ? viewUser.getBio() : ""%></li>
             <li> F.registro: <%=df.format(viewUser.getDate())%></li>
             <li><a href="userThreads.jsp?user=<%=viewUser.getId()%>">Hilos iniciados por <%=viewUser.getUsername()%></a></li>
+            <li><a href="userProducts.jsp?user=<%=viewUser.getId()%>">Productos de <%=viewUser.getUsername()%></a></li>
         </ul>
 
 

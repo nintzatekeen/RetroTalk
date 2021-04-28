@@ -5,10 +5,7 @@
  */
 package dao;
 
-import beans.Category;
 import beans.User;
-import beans.ForumThread;
-import beans.Message;
 import beans.PrivateMessage;
 import beans.Product;
 import java.sql.Connection;
@@ -21,7 +18,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.dbcp2.BasicDataSource;
-import utils.Utilities;
 
 /**
  *
@@ -37,6 +33,7 @@ public class DaoTienda {
     private static PreparedStatement psGetMessageById;
     private static PreparedStatement psSendMessage;
     private static PreparedStatement psUpdateUser;
+    private static PreparedStatement psGetUserProducts;
 
     static {
         //Para el driver nuevo
@@ -56,12 +53,14 @@ public class DaoTienda {
             String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
             String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
-
+            String sqlGetUserProducts = "select id, title, description, price, user, date, img from product where user = ? order by id desc limit ?, "+MAX_RESULTS;
+            
             psGetUserById = cn.prepareStatement(sqlGetUserById);
             psGetMessages = cn.prepareStatement(sqlGetMessages);
             psGetMessageById = cn.prepareStatement(sqlGetMessageById);
             psSendMessage = cn.prepareStatement(sqlSendMessage);
             psUpdateUser = cn.prepareStatement(sqlUpdateUser);
+            psGetUserProducts = cn.prepareStatement(sqlGetUserProducts);
         } catch (SQLException ex) {
             System.err.println("Error al crear los preparedstatements: " + ex.getMessage());
         }
@@ -121,6 +120,53 @@ public class DaoTienda {
         } catch (SQLException ex) {
             System.err.println("Error en newPrivateMessage: " + ex.getMessage());
         }
+    }
+    
+    public static Product getProductById (int id) {
+        String sql = "select id, title, description, price, user, date, img from product where id = " + id;
+        try (Connection cn = ds.getConnection();
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(sql)) {
+            if (rs.next()) {
+                Product product = new Product();
+                product.setDate(rs.getDate("date"));
+                product.setDescription(rs.getString("description"));
+                product.setId(rs.getInt("id"));
+                product.setImg(rs.getString("img"));
+                product.setPrice(rs.getDouble("price"));
+                product.setTitle(rs.getString("title"));
+                product.setUser(DaoRetro.getUserById(rs.getInt("user")));
+                return product;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error en getProductById: " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    public static Collection<Product> getUserProducts (Integer userId, Integer page) {
+        page = page != null && page >= 0 ? page : 0;
+        LinkedList<Product> list = new LinkedList<Product>();
+        try {
+            psGetUserProducts.setInt(1, userId);
+            psGetUserProducts.setInt(2, page);
+            ResultSet rs = psGetUserProducts.executeQuery();
+            while (rs.next()) {
+                                Product product = new Product();
+                product.setDate(rs.getDate("date"));
+                product.setDescription(rs.getString("description"));
+                product.setId(rs.getInt("id"));
+                product.setImg(rs.getString("img"));
+                product.setPrice(rs.getDouble("price"));
+                product.setTitle(rs.getString("title"));
+                product.setUser(DaoRetro.getUserById(rs.getInt("user")));
+                list.add(product);
+            }
+            return list;
+        } catch (SQLException ex) {
+            System.err.println("Error en getUserProducts: " + ex.getMessage());
+        }
+        return null;
     }
 
 //    public static Message getMessageById(Integer id) {

@@ -18,12 +18,14 @@
     <body>
         <%
             Product product = null;
-            ArrayList<Product> productsList = (ArrayList<Product>) session.getAttribute("productsList");
+            /*ArrayList<Product> productsList = (ArrayList<Product>) session.getAttribute("productsList");
             for (Product p : productsList) {
                 if (p.getId() == Integer.parseInt(request.getParameter("id"))) {
                     product = p;
                 }
-            }
+            }*/
+            Integer pId = Integer.parseInt(request.getParameter("id"));
+            product = dao.DaoTienda.getProductById(pId);
             User user = (User) session.getAttribute("user");
             if (user == null) {
                 response.sendRedirect("login.jsp");
