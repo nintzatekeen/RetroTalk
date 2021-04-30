@@ -21,7 +21,13 @@
             <file>file:/C:/Users/David/Desktop/PROYECTO%20FINAL/Prog/RetroTalk/src/java/servlets/ShopServlet.java</file>
         </group>
         <group name="ProyectosNetBeans">
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/newProduct.jsp</file>
             <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/userPrivateMessages.jsp</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/dao/DaoTienda.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/utils/Utilities.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/web/editProfile.jsp</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/servlets/InsertProductServlet.java</file>
+            <file>file:/C:/Users/ACER/Documents/NetBeansProjects/RetroTalk/src/java/servlets/ProfileServlet.java</file>
         </group>
     </open-files>
 </project-private>

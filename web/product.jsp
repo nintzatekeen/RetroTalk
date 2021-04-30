@@ -34,7 +34,7 @@
         %>
         <jsp:include page="header.jsp" />
         <h1> <%= product.getTitle()%> </h1>
-        <img src="images/productos/<%=product.getImg()%>">
+        <img src="<%=product.getImg()%>">
         <ul>
 
             <li><%=product.getDescription()%></li> 
