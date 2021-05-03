@@ -34,14 +34,12 @@ public class Utilities {
                 int start = msg.indexOf(matcher.group());
                 int end = start + matcher.group().length() - 1;
                 String aux = msg.substring(0, start);
-                if (aux.length() > 0) {
+                if (aux.length()>0)
                     aux += "<br/>";
-                }
                 aux += "<img style='max-height:250px;max-width:250px' src='" + link + "'><br/>";
-                aux += msg.substring(end + 1, msg.length());
+                aux += msg.substring(end+1, msg.length());
                 msg = aux;
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
         }
         return msg;
     }
@@ -64,8 +62,8 @@ public class Utilities {
                 int start = msg.indexOf(matcher.group());
                 int end = start + matcher.group().length() - 1;
                 String aux = msg.substring(0, start);
-                aux += "<br/>Cita de " + message.getUser().getUsername() + "<br/><span class='quote'>" + text + "</span><br/>";
-                aux += msg.substring(end + 1, msg.length());
+                aux+= "<br/>Cita de "+message.getUser().getUsername()+"<br/><span class='quote'>"+text+"</span><br/>";
+                aux += msg.substring(end+1, msg.length());
                 msg = aux;
             } catch (Exception e) {
             }
@@ -77,25 +75,14 @@ public class Utilities {
         String msg = originalMessage;
         msg = replaceImages(msg);
         msg = replaceQuotes(msg);
-
+        
         return msg;
     }
-
-    public static String format4Like(String text) {
+    
+    public static String format4Like (String text) {
         return "%" + text
-                .replaceAll("\\[", "[[]")
-                .replaceAll("\\]", "[]]")
-                .replaceAll("%", "[%]") + "%";
-    }
-
-    public static String getExtension(String fileName) {
-        if (fileName == null) {
-            return null;
-        } else if (fileName.lastIndexOf(".") < 0) {
-            return null;
-        } else {
-            return fileName.substring(fileName.lastIndexOf("."));
-        }
-
+                        .replaceAll("\\[", "[[]")
+                        .replaceAll("\\]", "[]]")
+                        .replaceAll("%", "[%]") + "%";
     }
 }

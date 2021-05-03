@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -37,9 +39,6 @@ public class DaoTienda {
     private static PreparedStatement psGetPrivateMessagesByUser;
     private static PreparedStatement psGetLastUserProductsPage;
     private static PreparedStatement psGetLastUserPrivateMessagesPage;
-    private static PreparedStatement psInsertProduct;
-    private static PreparedStatement psUpdateProductImg;
-    
 
     static {
         //Para el driver nuevo
@@ -59,15 +58,13 @@ public class DaoTienda {
             String sqlGetMessageById = "select id, content, user, thread, date, quote from message where id = ?";
             String sqlSendMessage = "insert into message (content, user, thread, date, quote) values (?,?,?,now(),?)";
             String sqlUpdateUser = "update user set avatar=?, bio=?, email=?, password=? where id=?";
-            String sqlGetUserProducts = "select id, title, description, price, user, date, img from product where user = ? order by id desc limit ?, " + MAX_RESULTS;
+            String sqlGetUserProducts = "select id, title, description, price, user, date, img from product where user = ? order by id desc limit ?, "+MAX_RESULTS;
             String sqlGetPrivateMessagesByUser = "select private_message.id, private_message.user, private_message.product, private_message.message, private_message.date from private_message inner join "
-                    + "product on private_message.product = product.id where product.user = ? order by id desc limit ?, " + MAX_RESULTS;
+                    + "product on private_message.product = product.id where product.user = ? order by id desc limit ?, "+MAX_RESULTS;
             String sqlGetLastUserProductsPage = "select count(*) as products from product where user = ?";
             String sqlGetLastUserPrivateMessagesPage = "select count(*) as messages from private_message inner join "
                     + "product on private_message.product = product.id where product.user = ?";
-            String sqlInsertProduct = "insert into product (title,description,price,user,date,img) values (?,?,?,?,now(),?)";
-            String sqlUpdateProductImg = "update product set img=? where id=?";
-
+            
             psGetUserById = cn.prepareStatement(sqlGetUserById);
             psGetMessages = cn.prepareStatement(sqlGetMessages);
             psGetMessageById = cn.prepareStatement(sqlGetMessageById);
@@ -77,9 +74,7 @@ public class DaoTienda {
             psGetPrivateMessagesByUser = cn.prepareStatement(sqlGetPrivateMessagesByUser);
             psGetLastUserProductsPage = cn.prepareStatement(sqlGetLastUserProductsPage);
             psGetLastUserPrivateMessagesPage = cn.prepareStatement(sqlGetLastUserPrivateMessagesPage);
-            psInsertProduct = cn.prepareStatement(sqlInsertProduct, Statement.RETURN_GENERATED_KEYS);
-            psUpdateProductImg = cn.prepareStatement(sqlUpdateProductImg);
-
+            
         } catch (SQLException ex) {
             System.err.println("Error al crear los preparedstatements: " + ex.getMessage());
         }
@@ -140,8 +135,8 @@ public class DaoTienda {
             System.err.println("Error en newPrivateMessage: " + ex.getMessage());
         }
     }
-
-    public static Product getProductById(int id) {
+    
+    public static Product getProductById (int id) {
         String sql = "select id, title, description, price, user, date, img from product where id = " + id;
         try (Connection cn = ds.getConnection();
                 Statement st = cn.createStatement();
@@ -162,8 +157,8 @@ public class DaoTienda {
         }
         return null;
     }
-
-    public static Collection<Product> getUserProducts(Integer userId, Integer page) {
+    
+    public static Collection<Product> getUserProducts (Integer userId, Integer page) {
         page = page != null && page >= 0 ? page : 0;
         LinkedList<Product> list = new LinkedList<Product>();
         try {
@@ -171,7 +166,7 @@ public class DaoTienda {
             psGetUserProducts.setInt(2, page);
             ResultSet rs = psGetUserProducts.executeQuery();
             while (rs.next()) {
-                Product product = new Product();
+                                Product product = new Product();
                 product.setDate(rs.getDate("date"));
                 product.setDescription(rs.getString("description"));
                 product.setId(rs.getInt("id"));
@@ -187,7 +182,7 @@ public class DaoTienda {
         }
         return null;
     }
-
+    
     public static Collection<PrivateMessage> getPrivateMessagesByUser(Integer userId, Integer page) {
         page = page != null && page >= 0 ? page : 0;
         LinkedList<PrivateMessage> list = new LinkedList<>();
@@ -196,7 +191,11 @@ public class DaoTienda {
             psGetPrivateMessagesByUser.setInt(2, page);
             ResultSet rs = psGetPrivateMessagesByUser.executeQuery();
             while (rs.next()) {
-                list.add(new PrivateMessage(rs.getInt("id"), rs.getString("message"), DaoRetro.getUserById(rs.getInt("user")), getProductById(rs.getInt("product")), rs.getDate("date")));
+                list.add(new PrivateMessage(rs.getInt("id")
+                        , rs.getString("message")
+                        , DaoRetro.getUserById(rs.getInt("user"))
+                        , getProductById(rs.getInt("product"))
+                        , rs.getDate("date")));
             }
             return list;
         } catch (SQLException ex) {
@@ -204,26 +203,26 @@ public class DaoTienda {
         }
         return null;
     }
-
-    public static int getLastUserProductsPage(Integer userId) {
+    
+    public static int getLastUserProductsPage (Integer userId) {
         try {
             psGetLastUserProductsPage.setInt(1, userId);
             ResultSet rs = psGetLastUserProductsPage.executeQuery();
             if (rs.next()) {
-                return rs.getInt("products") / MAX_RESULTS;
+                return rs.getInt("products")/MAX_RESULTS;
             }
         } catch (SQLException ex) {
             System.err.println("Error en getLastUserProductsPage: " + ex.getMessage());
         }
         return 0;
     }
-
-    public static int getLastUserPrivateMessagesPage(Integer userId) {
+    
+        public static int getLastUserPrivateMessagesPage (Integer userId) {
         try {
             psGetLastUserPrivateMessagesPage.setInt(1, userId);
             ResultSet rs = psGetLastUserPrivateMessagesPage.executeQuery();
             if (rs.next()) {
-                return rs.getInt("messages") / MAX_RESULTS;
+                return rs.getInt("messages")/MAX_RESULTS;
             }
         } catch (SQLException ex) {
             System.err.println("Error en getLastUserPrivateMessagesPage: " + ex.getMessage());
@@ -231,37 +230,7 @@ public class DaoTienda {
         return 0;
     }
     
-    public static int insertProduct(Product newProduct) {
-        if (newProduct == null) return 0;
-        //insert into product (title,description,price,user,date,img) values (?,?,?,?,now(),?)
-        try {
-            psInsertProduct.setString(1, newProduct.getTitle());
-            psInsertProduct.setString(2, newProduct.getDescription());
-            psInsertProduct.setDouble(3, newProduct.getPrice());
-            psInsertProduct.setInt(4, newProduct.getUser().getId());
-            psInsertProduct.setString(5, /*newProduct.getImg()*/null);
-            psInsertProduct.executeUpdate();
-            ResultSet rs = psInsertProduct.getGeneratedKeys();
-            int lastId = 0;
-            if (rs.next())
-                lastId = rs.getInt(1);
-            newProduct.setId(lastId);
-            return lastId;
-        }catch (SQLException ex) {
-            System.err.println("Error en insertProduct: " + ex.getMessage());
-        }
-        return 0;
-    }
     
-    public static void updateProductImg(int productId, String img) {
-        try {
-            psUpdateProductImg.setString(1, img);
-            psUpdateProductImg.setInt(2, productId);
-            psUpdateProductImg.executeUpdate();
-        } catch (SQLException ex) {
-            System.err.println("Error en updateProductImg: " + ex.getMessage());
-        }
-    }
 
 //    public static Message getMessageById(Integer id) {
 //        try {
