@@ -4,13 +4,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="bootstrap/js/jquery.js"></script>
-        <script src="bootstrap/js/bootstrap.js"></script>
         <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="fontawesome/css/all.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script src="script/scripts.js"></script>
+        <script src="bootstrap/js/bootstrap.js"></script>
         <meta name="viewport" content="width=device-width height=device-height">
     </head>
     <body class="bg-dark text-light">

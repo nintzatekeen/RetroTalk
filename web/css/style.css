@@ -32,7 +32,7 @@
     color: white;
     font-size: 40px; 
     text-align: center;
-    border-bottom: 2px solid  #636363  ;
+    
     padding: 10px;
     text-shadow: 0px 0px 10px #e242ff;
     font-family: 'Retro';
@@ -40,6 +40,10 @@
 
 .colorfondo{
     background-color:    #333333;
+}
+
+.colorfondo2{
+    background-color:  #545454 ;
 }
 
 .icono{
@@ -62,6 +66,11 @@
     max-width: 50px;
 }
 
+.fotoPerfil2{
+    max-height: 100px;
+    max-width: 100px;
+}
+
 .headerHilo{
     background-color:  #545454 ;
     height: 30px;
@@ -80,6 +89,13 @@
 .bordeneon{
    -webkit-box-shadow: 3px 3px 5px 3px #e242ff, -7px -5px 15px 5px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0); 
     box-shadow: 4px 3px 15px 2px #e242ff, -2px -5px 15px 4px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0);
+    border-top: 3px solid #00ccff;
+    border-left: 3px solid #00ccff;
+    border-bottom: 3px solid #e242ff;
+    border-right: 3px solid #e242ff;
+}
+
+.borde{
     border-top: 3px solid #00ccff;
     border-left: 3px solid #00ccff;
     border-bottom: 3px solid #e242ff;
@@ -127,6 +143,12 @@ h4{
 
 a{
     text-decoration:none;
+    color: white;
+}
+
+enlace:hover {
+    color:white;
+    border-bottom: 1px solid white;
 }
 
 .categoria:hover{
@@ -172,4 +194,9 @@ a{
 
 .flechas:hover{
     background-color:  #fc14ea  !important;
+}
+
+.quote{
+   border-left: 10px solid #545454; 
+   padding: 20px;
 }
