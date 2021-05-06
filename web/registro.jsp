@@ -11,21 +11,55 @@
 <!--IMPORTACIÓN DEL HEADER-->
 <jsp:include page="header.jsp" />
 
+<div class="wrapper container ">
+    <div class=" bordeneon colorfondo p-1 p-lg-5 mt-5">
+        <h2 class="m-5 titulo">REGISTRO</h2>
+        
+        <form class="text-center row justify-content-center m-5" method="POST" action="RegistryServlet">
+            <div class="col-lg-6 col-12 align-self-center">
+                
+                <c:if test="${requestScope.error != null}">
+                    <p style="color:red">${requestScope.error}</p>
+                </c:if>
 
-<h1>REGISTRO</h1>
-<form method="POST" action="RegistryServlet">
-    <input type="text" name="username" placeholder="USAURIO" value="${param.username}"/>
-    <br/>
-    <input type="password" name="password" placeholder="CONTRASEÑA"/>
-    <br/>
-    <input type="password" name="confirm" placeholder="REPITE CONTRASEÑA"/>
-    <br/>
-    <input type="email" name="email" placeholder="CORREO ELECTRÓNICO" value="${param.email}"/>
-    <br/>
-    <input type="submit" name="submit" value="REGISTRARSE"/>
-    <c:if test="${requestScope.error != null}">
-        <p style="color:red">${requestScope.error}</p>
-    </c:if>
-</form>
+                <div class="input-group form-group mb-2">
+                    <div class="input-group-prepend" >
+                        <span class="input-group-text" style="height: 100%;"><i class="fas fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="inputUser" placeholder="Nombre de usuario" name="username" value="${param.username}"/>
+                </div>
+                
+                <div class="input-group form-group mb-2">
+                    <div class="input-group-prepend" >
+                        <span class="input-group-text" style="height: 100%;"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="inputUser" ptype="email" name="email" placeholder="Correo Electrónico" value="${param.email}"/>
+                </div>
+
+                <div class="input-group form-group mt-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="height: 100%;"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" name="password" placeholder="Contraseña" id="inputPassword" class="form-control"/>
+                </div>
+                
+                <div class="input-group form-group mt-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="height: 100%;"><i class="fas fa-key"></i></span>
+                    </div>
+                    <input type="password" name="confirm" placeholder="Repite Contraseña" id="inputPassword" class="form-control"/>
+                </div>
+
+                <input type="submit" name="submit" value="REGISTRARSE" class="btn btn-primary mt-3"/>
+            </div>
+        </form>
+                
+        <div class="text-light">
+            <div class="d-flex justify-content-center links">
+                Ya tienes una cuenta? <a href="#" class="ps-2">Inicia sesion</a>
+            </div>
+        </div>   
+    </div>
+</div>
 <!--IMPORTACIÓN DEL FOOTER-->
 <jsp:include page="footer.jsp" />

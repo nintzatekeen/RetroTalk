@@ -200,3 +200,11 @@ enlace:hover {
    border-left: 10px solid #545454; 
    padding: 20px;
 }
+
+.msg p img{
+    max-height: 300px;
+}
+
+.quote img{
+    max-height: 200px;
+}

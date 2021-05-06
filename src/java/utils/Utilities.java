@@ -36,7 +36,7 @@ public class Utilities {
                 String aux = msg.substring(0, start);
                 if (aux.length()>0)
                     aux += "<br/>";
-                aux += "<img style='max-height:250px;max-width:250px' src='" + link + "'><br/>";
+                aux += "<img alt='img' class='img-fluid' src='" + link + "'><br/>";
                 aux += msg.substring(end+1, msg.length());
                 msg = aux;
             } catch (Exception e) {}
@@ -62,7 +62,14 @@ public class Utilities {
                 int start = msg.indexOf(matcher.group());
                 int end = start + matcher.group().length() - 1;
                 String aux = msg.substring(0, start);
-                aux+= "<br/>Cita de "+message.getUser().getUsername()+"<br/><span class='quote'>"+text+"</span><br/>";
+                aux+= "<div class='mb-2'>" +
+                        "<div class='col-12 colorfondo2'>" +
+                            "<p class='p-1 ps-3 my-auto'>Cita de "+message.getUser().getUsername()+"</p>" +
+                        "</div>" +
+                        "<div class='align-self-end quote'>" 
+                            +text+
+                        "</div>" +
+                    "</div>";
                 aux += msg.substring(end+1, msg.length());
                 msg = aux;
             } catch (Exception e) {
@@ -73,8 +80,8 @@ public class Utilities {
 
     public static String formatMsgOutput(String originalMessage) {
         String msg = originalMessage;
-        msg = replaceImages(msg);
-        msg = replaceQuotes(msg);
+        msg = replaceImages(msg)+ " ";
+        msg = replaceQuotes(msg)+ " ";
         
         return msg;
     }
