@@ -48,6 +48,10 @@
         <servlet-name>NewPrivateMessageServlet</servlet-name>
         <servlet-class>servlets.NewPrivateMessageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsertProductServlet</servlet-name>
+        <servlet-class>servlets.InsertProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistryServlet</servlet-name>
         <url-pattern>/RegistryServlet</url-pattern>
@@ -91,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>NewPrivateMessageServlet</servlet-name>
         <url-pattern>/NewPrivateMessageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertProductServlet</servlet-name>
+        <url-pattern>/InsertProductServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
