@@ -419,11 +419,12 @@ public class DaoRetro {
         try (Connection cn = ds.getConnection();
                 Statement st = cn.createStatement();
                 ResultSet rs = st.executeQuery(sql)) {
-            return getMessageById(rs.getInt("id"));
+            if (rs.next())
+                return getMessageById(rs.getInt("id"));
         } catch (SQLException ex) {
             System.err.println("Error en getLastThreadMessage: " + ex.getMessage());
-            return null;
         }
+        return null;
     }
 
     public static int getMessageCountByThread(int threadId) {
@@ -431,11 +432,12 @@ public class DaoRetro {
         try (Connection cn = ds.getConnection();
                 Statement st = cn.createStatement();
                 ResultSet rs = st.executeQuery(sql)) {
-            return rs.getInt("message");
+            if (rs.next())
+                return rs.getInt("messages");
         } catch (SQLException ex) {
             System.err.println("Error en getMessageCountByThread: " + ex.getMessage());
-            return -1;
         }
+        return -1;
     }
 
     public static Collection<ForumThread> searchThreads(String text, Integer page) {

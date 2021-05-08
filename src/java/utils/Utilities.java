@@ -85,6 +85,10 @@ public class Utilities {
         
         return msg;
     }
+    public static String removeTags(String originalMessage) {
+        String msg = originalMessage.replaceAll("\\[.*\\]", "");
+        return msg;
+    }
     
     public static String format4Like (String text) {
         return "%" + text

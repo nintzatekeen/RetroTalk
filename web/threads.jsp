@@ -97,7 +97,7 @@
                                 <p><%=thread.getMessageCount()%></p>
                             </div>
                             <div class="col-lg-2 col-0 my-auto d-none d-lg-block">
-                                <p><%=thread.getLastMessage()%></p>
+                                <p><%=utils.Utilities.removeTags(thread.getLastMessage().getContent())%></p>
                             </div>
 
                         </div>
