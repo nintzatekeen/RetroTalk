@@ -4,6 +4,7 @@
     Author     : dw2
 --%>
 
+<%@page import="beans.ForumThread"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="utils.Utilities"%>
@@ -14,13 +15,13 @@
 <!--IMPORTACIÓN DEL HEADER-->
 <jsp:include page="header.jsp" />
 <script>
-            window.onload = () => {
-                var btns = document.getElementsByClassName("quoteBtn");
+    window.onload = () => {
+        var btns = document.getElementsByClassName("quoteBtn");
 
-                for (let i = 0; i < btns.length; i++) {
-                    btns[i].addEventListener("click", e => {
-                        let id = e.target.name;
-                        document.getElementById("area").value += "[quote]" + id + "[/quote]";
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", e => {
+                let id = e.target.name;
+                document.getElementById("area").value += "[quote]" + id + "[/quote]";
             });
         }
     }
@@ -36,54 +37,56 @@
         </div>
     </div>
 
+    <%
+        try {
+            Integer thread = Integer.parseInt(request.getParameter("thread"));
+            Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
+            ForumThread th = dao.DaoRetro.getThreadById(thread);
+    %>
     <div class="mt-3 row p-3 colorfondo ">
         <div class="col-12 ">
-            <h2 class="m-5 titulo bordeneon">JAJA AL CHILE XD</h2>
-        </div>
-        
+            <h2 class="m-5 titulo bordeneon"><%=th.getTitle()%></h2>
+        </div>    
         <%
-            try {
-                Integer thread = Integer.parseInt(request.getParameter("thread"));
-                Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
-                Collection<Message> list = dao.DaoRetro.getMessages(thread, pag);
-                User user = (User) session.getAttribute("user");
-                boolean isAdmin = Utilities.checkAdmin(user);
-                if (isAdmin) {
+            Collection<Message> list = dao.DaoRetro.getMessages(thread, pag);
+            User user = (User) session.getAttribute("user");
+            boolean isAdmin = Utilities.checkAdmin(user);
+            if (isAdmin) {
         %>
-        
+
         <div class="col-12 d-flex mb-2 ps-5">
             <form method="post" action="ThreadRemoveServlet">
                 <input type="hidden" name="threadId" value="<%=thread%>"/>
                 <input type="submit" class="btn btn-primary" name="submit" value="Borrar hilo"/>
             </form>
         </div>
-        
+
         <%
             }
         %>
-        
+
         <div class="container col-12 p-5">
-            
+
             <%
                 for (Message msg : list) {
                     User msgUser = msg.getUser();
             %>
             <div class="row mb-4">
                 <div class="col-12 colorfondo2">
-                    <p class="p-1 ps-3 my-auto text-muted"><i class="fas fa-calendar-week pe-2"></i><%= msg.getDate() %></p>
+                    <p class="p-1 ps-3 my-auto text-muted"><i class="fas fa-calendar-week pe-2"></i><%= msg.getDate()%></p>
                 </div>
                 <div class="col-2 colorfondo2">
                     <div class="row d-flex  p-3">
                         <h4 class=""><a href="profile.jsp?user=<%=msgUser.getId()%>"><%=msgUser.getUsername()%></a></h4>
                         <div><img src="images/fotoperfil.jpg" class="img-fluid d-block  fotoPerfil2 mt-3 mb-3 bordeneon" alt="Responsive image"></div>
                         <p>Usuario desde: <%=msgUser.getDate()%></p>
-                        
+
                         <%
                             if (request.getSession().getAttribute("user") != null) {
                         %>
                         <div>
                             <input type="button" class="quoteBtn btn btn-primary  btn-sm" name="<%=msg.getId()%>" value="CITAR"/>
-                            
+
                             <%
                                 if (isAdmin) {
                             %>
@@ -97,8 +100,8 @@
                             %>
 
                         </div>
-                        
-                        
+
+
                         <%
                             }
                         %>
@@ -113,7 +116,7 @@
             %>
 
         </div>
-        
+
         <div class="container col-12 p-5 pt-0">
             <div class="row">
                 <%
@@ -130,13 +133,13 @@
                     </div>
                 </form>
                 <%
-                    }else{
+                } else {
                 %>
-                
+
                 <div class="alert alert-warning text-center" role="alert">
                     Debes iniciar sesion para poder responder!
                 </div>
-                
+
                 <%
                     }
                 %>
@@ -149,12 +152,12 @@
         <%
             }
         %>    
-            
+
     </div>    
 </div>
-        
-        
-        
-        
+
+
+
+
 <!--IMPORTACIÓN DEL FOOTER-->
 <jsp:include page="footer.jsp" />
