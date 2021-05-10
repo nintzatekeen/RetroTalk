@@ -8,17 +8,35 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--IMPORTACIÓN DEL HEADER-->
 <jsp:include page="header.jsp" />
-<h1>Crear nuevo hilo</h1>
-<form method="post" action="NewThreadServlet">
-    <input type="text" name="title">
-    <textarea name="content"></textarea>
-    <input type="submit" name="create" value="CREAR HILO"/>
-    <input type="hidden" name="category" value="<%= request.getParameter("cat")%>"/>
-</form>
 
-<c:if test="${requestScope.error != null}">
-    <p style="color:red">${requestScope.error} </p>
-</c:if>
+<div class="wrapper container ">
+    <div class=" bordeneon colorfondo p-1 p-lg-5 mt-5">
+        <h2 class="m-5 titulo">Crear nuevo hilo</h2>
+        
+        <form method="post" class="text-center row justify-content-center m-5" action="NewThreadServlet">
+            <div class="col-lg-8 col-12">
+                <div class="form-group">
+                    <label for="nombre" class="d-none">Nombre del hilo</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre del hilo" name="title">
+                </div>
+
+                <div class="form-group mt-4">
+                    <label for="nombre" class="d-none">Nombre del hilo</label>
+                    <textarea class="form-control"  name="content" rows="4" placeholder="Tema a tratar..."></textarea>
+                </div>
+
+                <input type="hidden" name="category" value="<%= request.getParameter("cat")%>"/>
+                
+                <input type="submit" name="create" class="btn btn-primary mt-3" value="CREAR HILO"/>
+                
+                <c:if test="${requestScope.error != null}">
+                    <p style="color:red">${requestScope.error} </p>
+                </c:if>
+            </div>
+        </form>
+        
+    </div>
+</div>    
 
 <!--IMPORTACIÓN DEL FOOTER-->
 <jsp:include page="footer.jsp" />
