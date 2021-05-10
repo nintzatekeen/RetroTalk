@@ -147,7 +147,6 @@
                 </p>
                 <%
                     }
-
                 %>
             </c:when>
             <c:otherwise>
