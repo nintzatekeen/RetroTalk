@@ -28,17 +28,14 @@
             
             <div class=" row m-3 colorfondo2">
                 <div class="col-12 p-5 d-flex ">
-                     <%
-                        if (viewUser.getAvatar() != null && !viewUser.getAvatar().isEmpty()) {
-                    %> 
-                        <img src="images/fotoperfil.jpg" class="img-fluid me-3 d-block fotoPerfil2 bordeneon" alt="imagen perfil">
-                    <%
-                        }else{
-                    %>
-                        <img src="images/fotoperfil.jpg" class="img-fluid me-3 d-block fotoPerfil2 bordeneon" alt="imagen perfil">
-                    <%
-                        }
-                    %>
+                     <c:choose >
+                        <c:when test="${user.getAvatar()!=null}">
+                            <img src="${user.getAvatar()}" class="img-fluid me-3 d-block fotoPerfil2 bordeneon" alt="imagen perfil">
+                        </c:when>
+                        <c:otherwise>
+                            <img src="avatars/fotoperfil.jpg"  class="img-fluid me-3 d-block fotoPerfil2 bordeneon" alt="imagen perfil">
+                        </c:otherwise>
+                    </c:choose> 
                     <h2 class="text-center my-auto ms-5">Perfil de: <span class="titulo"><%=viewUser.getUsername()%></span></h2>
                 </div>
             </div>

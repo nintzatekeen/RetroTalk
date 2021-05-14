@@ -201,10 +201,20 @@ enlace:hover {
    padding: 20px;
 }
 
-.msg p img{
+.msg img{
     max-height: 300px;
 }
 
 .quote img{
     max-height: 200px;
+}
+
+.mensaje{
+     border-left: 10px solid #545454; 
+}
+
+.menu-right{
+    right: -12px;
+    left: auto !important;
+    top:45px;
 }

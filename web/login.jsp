@@ -11,7 +11,7 @@
         
         <div class="wrapper container ">
             <div class=" bordeneon colorfondo p-1 p-lg-5 mt-5">
-                <h2 class="m-5 titulo">Login</h2>
+                <h2 class="m-5 titulo border-bottom">Login</h2>
                 <form class="text-center row justify-content-center m-5" method="POST" action="LoginServlet">
                     <div class="col-lg-6 col-12 align-self-center">
 

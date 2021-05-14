@@ -16,8 +16,8 @@
 
 <div class="wrapper container ">
     <div class="row colorfondo justify-content-end p-3  mt-5">
-        <div class="col-lg-4 col-8 align-self-end">
-            <form action="threadSearch.jsp" method="get" class="d-flex me-5 ms-5">
+        <div class="col-lg-5 col-12 align-self-end">
+            <form action="threadSearch.jsp" method="get" class="d-flex me-lg-5 me-5 ms-5 ms-lg-5">
                 <input class="form-control me-2" name="text" type="search" placeholder="Buscar" aria-label="Search">
                 <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
             </form>

@@ -11,7 +11,7 @@
 
 <div class="wrapper container ">
     <div class=" bordeneon colorfondo p-1 p-lg-5 mt-5">
-        <h2 class="m-5 titulo">Crear nuevo hilo</h2>
+        <h2 class="m-5 titulo border-bottom">Crear nuevo hilo</h2>
         
         <form method="post" class="text-center row justify-content-center m-5" action="NewThreadServlet">
             <div class="col-lg-8 col-12">

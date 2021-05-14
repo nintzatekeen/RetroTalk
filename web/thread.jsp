@@ -29,8 +29,8 @@
 </script>
 <div class="wrapper container ">
     <div class="row colorfondo justify-content-end p-3  mt-5">
-        <div class="col-lg-4 col-8 align-self-end">
-            <form action="threadSearch.jsp" method="get" class="d-flex me-5 ms-5">
+        <div class="col-lg-5 col-12 align-self-end">
+            <form action="threadSearch.jsp" method="get" class="d-flex me-lg-5 me-5 ms-5 ms-lg-5">
                 <input class="form-control me-2" name="text" type="search" placeholder="Buscar" aria-label="Search">
                 <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
             </form>
@@ -70,21 +70,31 @@
             <%
                 for (Message msg : list) {
                     User msgUser = msg.getUser();
+                    System.out.println(msgUser.getAvatar());
             %>
-            <div class="row mb-4">
-                <div class="col-12 colorfondo2">
+            <div class="row mb-4 mensaje">
+                <div class="col-9 col-lg-12 colorfondo2">
                     <p class="p-1 ps-3 my-auto text-muted"><i class="fas fa-calendar-week pe-2"></i><%= msg.getDate()%></p>
                 </div>
-                <div class="col-2 colorfondo2">
+                <div class="col-3 col-lg-2 colorfondo2">
                     <div class="row d-flex  p-3">
                         <h4 class=""><a href="profile.jsp?user=<%=msgUser.getId()%>"><%=msgUser.getUsername()%></a></h4>
-                        <div><img src="images/fotoperfil.jpg" class="img-fluid d-block  fotoPerfil2 mt-3 mb-3 bordeneon" alt="Responsive image"></div>
-                        <p>Usuario desde: <%=msgUser.getDate()%></p>
+                        <div class="d-none d-lg-block">
+                            <c:choose >
+                                <c:when test="${msgUser.getAvatar()!=null}">
+                                    <img src="${msgUser.getAvatar()}" class="img-fluid d-block  fotoPerfil2 mt-3 mb-3 bordeneon" alt="Responsive image">
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="avatars/fotoperfil.jpg" class="img-fluid d-block  fotoPerfil2 mt-3 mb-3 bordeneon" alt="Responsive image">
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                        <p class="d-none d-lg-block">Usuario desde: <%=msgUser.getDate()%></p>
 
                         <%
                             if (request.getSession().getAttribute("user") != null) {
                         %>
-                        <div>
+                        <div class="d-none d-lg-block">
                             <input type="button" class="quoteBtn btn btn-primary  btn-sm" name="<%=msg.getId()%>" value="CITAR"/>
 
                             <%
@@ -107,7 +117,24 @@
                         %>
                     </div>
                 </div>
-                <div class="col-10 p-3 msg">
+                <div class="col-lg-10 col-12 p-3 msg">
+                    <div class="d-lg-none d-flex mb-3">
+                        <div class="my-auto">
+                            <input type="button" class="quoteBtn btn btn-primary btn-sm me-3" name="<%=msg.getId()%>" value="Citar"/>
+                        </div>
+                        <%
+                            if (isAdmin) {
+                        %>
+                        <form method="post" action="MessageRemoveServlet" class="my-auto">
+                            <input type="hidden" name="messageId" value="<%=msg.getId()%>"/>
+                            <input type="submit" name="submit" class="quoteBtn btn btn-primary  btn-sm " value="Borrar mensaje"/>
+                        </form>
+
+                        <%
+                            }
+                        %>
+
+                    </div>
                     <%=Utilities.formatMsgOutput(msg.getContent())%>
                 </div>    
             </div>
@@ -148,11 +175,11 @@
         <%
         } catch (Exception ex) {
         %>
-        <p style="color:red">PÁGINA NO ENCONTRADA</p>
+        <p style="color:red">PÁGINA NO ENCONTRADA<%=ex%></p>
         <%
             }
         %>    
-
+        
     </div>    
 </div>
 
