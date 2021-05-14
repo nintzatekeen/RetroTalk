@@ -81,7 +81,7 @@ public class DaoRetro {
             String sqlGetLastSearchThread = "select count(*) as threads from thread where upper(title) like upper(?)";
 
             psAvailableUser = cn.prepareStatement(sqlAvailableUser);
-            psInsertUser = cn.prepareStatement(sqlInsertUser);
+            psInsertUser = cn.prepareStatement(sqlInsertUser, Statement.RETURN_GENERATED_KEYS);
             psGetUserByUsername = cn.prepareStatement(sqlGetUserByUsername);
             psGetThreads = cn.prepareStatement(sqlGetThreads);
             psGetUserById = cn.prepareStatement(sqlGetUserById);
@@ -135,15 +135,20 @@ public class DaoRetro {
         return false;
     }
 
-    public static void insertUser(User user) {
+    public static User insertUser(User user) {
         try {
             psInsertUser.setString(1, user.getUsername());
             psInsertUser.setString(2, user.getPassword());
             psInsertUser.setString(3, user.getEmail());
             psInsertUser.executeUpdate();
+            
+            ResultSet rs = psInsertUser.getGeneratedKeys();
+            if (rs.next())
+                return getUserById(rs.getInt(1));
         } catch (SQLException ex) {
             System.err.println("Error en insertUser: " + ex.getMessage());
         }
+        return null;
     }
 
     public static User getUserByUsername(String username) {

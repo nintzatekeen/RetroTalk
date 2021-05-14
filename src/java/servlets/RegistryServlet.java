@@ -43,7 +43,7 @@ public class RegistryServlet extends HttpServlet {
                         encryptor.setPassword(request.getServletContext().getInitParameter("encryptionPass"));
                         user.setPassword(encryptor.encrypt(request.getParameter("password")));
                         user.setEmail(request.getParameter("email"));
-                        dao.DaoRetro.insertUser(user);
+                        user = dao.DaoRetro.insertUser(user);
                         request.getSession().setAttribute("user", user);
                         response.sendRedirect("index.jsp");
                     } else {

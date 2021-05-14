@@ -52,6 +52,10 @@
         <servlet-name>InsertProductServlet</servlet-name>
         <servlet-class>servlets.InsertProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>servlets.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistryServlet</servlet-name>
         <url-pattern>/RegistryServlet</url-pattern>
@@ -99,6 +103,10 @@
     <servlet-mapping>
         <servlet-name>InsertProductServlet</servlet-name>
         <url-pattern>/InsertProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,6 +4,7 @@
     Author     : dw2
 --%>
 
+<%@page import="dao.DaoRetro"%>
 <%@page import="beans.ForumThread"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -42,6 +43,7 @@
             Integer thread = Integer.parseInt(request.getParameter("thread"));
             Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
             ForumThread th = dao.DaoRetro.getThreadById(thread);
+            int lastPage = DaoRetro.getLastThreadPage(th);
     %>
     <div class="mt-3 row p-3 colorfondo ">
         <div class="col-12 ">
@@ -171,6 +173,39 @@
                     }
                 %>
             </div>
+            
+                            <div class="col-12 mt-5">
+                    <nav class="me-5 ms-5 ">
+                        <ul class="pagination justify-content-center navegador">
+
+                            <li class="page-item flechas deshabilitado">
+                                <a class="page-link" href="#" href="thread.jsp?thread=<%=thread%>&page=0" tabindex="-1">&laquo; Atras</a>
+                            </li>
+
+                            <%
+                                if (pag != 0) {
+                            %>
+                            <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag - 1%>"><%=pag%></a></li>
+                                <%
+                                    }
+                                %>
+                            <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag%>"><%=pag + 1%></a></li>
+                                <%
+                                    if (pag != lastPage) {
+                                %>
+                            <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
+                                <%
+                                    }
+                                %>
+
+                            <li class="page-item flechas">
+                                <a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=lastPage%>">Siguiente &raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            
+            
         </div>  
         <%
         } catch (Exception ex) {
