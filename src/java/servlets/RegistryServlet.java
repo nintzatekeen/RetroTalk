@@ -6,6 +6,7 @@
 package servlets;
 
 import beans.User;
+import dao.DaoRetro;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,17 +36,22 @@ public class RegistryServlet extends HttpServlet {
             if (dao.DaoRetro.isUserAvailable(request.getParameter("user"))) {
                 if (request.getParameter("password").equals(request.getParameter("confirm"))) {
                     if (request.getParameter("password").length() >= 4) {
-                        User user = new User();
-                        user.setUsername(request.getParameter("username"));
-                        System.out.println(request.getServletContext().getInitParameter("encryptionPass"));
-                        AES256TextEncryptor encryptor = new AES256TextEncryptor();
-                        
-                        encryptor.setPassword(request.getServletContext().getInitParameter("encryptionPass"));
-                        user.setPassword(encryptor.encrypt(request.getParameter("password")));
-                        user.setEmail(request.getParameter("email"));
-                        user = dao.DaoRetro.insertUser(user);
-                        request.getSession().setAttribute("user", user);
-                        response.sendRedirect("index.jsp");
+                        if (DaoRetro.getUserByUsername(request.getParameter("username")) == null) {
+                            User user = new User();
+                            user.setUsername(request.getParameter("username"));
+                            System.out.println(request.getServletContext().getInitParameter("encryptionPass"));
+                            AES256TextEncryptor encryptor = new AES256TextEncryptor();
+
+                            encryptor.setPassword(request.getServletContext().getInitParameter("encryptionPass"));
+                            user.setPassword(encryptor.encrypt(request.getParameter("password")));
+                            user.setEmail(request.getParameter("email"));
+                            user = dao.DaoRetro.insertUser(user);
+                            request.getSession().setAttribute("user", user);
+                            response.sendRedirect("index.jsp");
+                        }  else {
+                        request.setAttribute("error", "EL USUARIO YA EXISTE");
+                        request.getRequestDispatcher("registro.jsp").forward(request, response);
+                    }
                     } else {
                         request.setAttribute("error", "LA CONTRASEÑA ES DEMASIADO PEQUEÑA");
                         request.getRequestDispatcher("registro.jsp").forward(request, response);
@@ -60,9 +66,9 @@ public class RegistryServlet extends HttpServlet {
             }
         } else {
             request.setAttribute("error", "NO DEBEN QUEDAR CAMPOS VACÍOS");
-                request.getRequestDispatcher("registro.jsp").forward(request, response);
+            request.getRequestDispatcher("registro.jsp").forward(request, response);
         }
-        
+
     }
 
 }
