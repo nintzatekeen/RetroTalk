@@ -17,12 +17,13 @@
 <jsp:include page="header.jsp" />
 <script>
     //CÓDIGO PARA MOSTRAR BOTONES PARA HACER MÁS SIMPLES LAS CITAS DE MENSAJES
-    window.onload = () = > {
+    window.onload = () => {
     var btns = document.getElementsByClassName("quoteBtn");
-            for (let i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", e = > {
-    let id = e.target.name;
-            document.getElementById("area").value += "[quote]" + id + "[/quote]";
+    console.log(btns.length);
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", e => {
+        let id = e.target.name;
+        document.getElementById("area").value += "[quote]" + id + "[/quote]";
     });
     }
     }

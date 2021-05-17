@@ -35,7 +35,7 @@
 
                 <div class="form-group mt-2 text-start">
                     <label for="bio" class="">Bio:</label>
-                    <textarea type="text" class="form-control"  name="categoryName" rows="4" id="bio" placeholder="Bio..." >${user.getBio()}</textarea>
+                    <textarea type="text" class="form-control"  name="bio" rows="4" id="bio" placeholder="Bio..." >${user.getBio()}</textarea>
                 </div>
 
                 <div class="form-group mt-2 text-start">
