@@ -19,6 +19,7 @@
 
 <%
     try {
+        //OBTENCIÓN DE LOS PRODUCTOS DEL USUARIO SOLICITADO DESDE BD
         User user = DaoRetro.getUserById(Integer.parseInt(request.getParameter("user")));
         Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
         Integer lastPage = DaoTienda.getLastUserProductsPage(user.getId());
@@ -29,43 +30,43 @@
     <%
         }
         out.print("</ul>");
-%>
-  
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=0" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
+    %>
+<!--PAGINACIÓN-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=0" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <%
+            if (pag != 0) {
+        %>
+        <li class="page-item"><a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag - 1%>"><%=pag%></a></li>
             <%
-                if (pag != 0) {
+                }
             %>
-            <li class="page-item"><a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag - 1%>"><%=pag%></a></li>
-                <%
-                    }
-                %>
-            <li class="page-item"><a class="page-link" aria-disabled="true" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag%>"><%=pag + 1%></a></li>
-                <%
-                    if (pag != lastPage) {
-                %>
-            <li class="page-item"><a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
-                <%
-                    }
-                %>
-            <li class="page-item">
-                <a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=lastPage%>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+        <li class="page-item"><a class="page-link" aria-disabled="true" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag%>"><%=pag + 1%></a></li>
+            <%
+                if (pag != lastPage) {
+            %>
+        <li class="page-item"><a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
+            <%
+                }
+            %>
+        <li class="page-item">
+            <a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=lastPage%>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 <%
 
-    } catch (Exception e) {
-e.printStackTrace();
-    %>
+} catch (Exception e) {
+    e.printStackTrace();
+%>
 <h1 style="color:red">PÁGINA NO ENCONTRADA</h1>
 <%
     }

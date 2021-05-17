@@ -24,19 +24,20 @@
     </div>
 
     <div class="mt-3 row p-3 colorfondo ">
-         <%
+        <%
             try {
+                //OBTENCIÓN DESDE BD DE LOS HILOS DEL USUARIO SOLICITADO EN LA PÁGINA SOLICITADA
                 User user = DaoRetro.getUserById(Integer.parseInt(request.getParameter("user")));
                 Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
                 Integer lastPage = DaoRetro.getLastUserThreadsPage(user);
                 Collection<ForumThread> threads = DaoRetro.getUserThreads(user.getId(), pag);
         %>
-        
+
         <div class="col-12 ">
             <h2 class="m-5 titulo bordeneon">Hilos credos por <%=user.getUsername()%></h2> 
         </div>
-        
-       
+
+
         <div class="col-12">
 
             <div class=" me-5 ms-5 justify-content-center headerHilo">
@@ -57,6 +58,7 @@
             </div> 
 
             <%
+                //CARGA DE CADA HILO DE BD
                 for (ForumThread thread : threads) {
             %>
 
@@ -91,46 +93,47 @@
             <%
                 }
             %>
+            <!--PAGINACIÓN-->
         </div>
-            <div class="col-12 mt-5">
-                <nav class="me-5 ms-5 ">
-                    <ul class="pagination justify-content-center navegador">
+        <div class="col-12 mt-5">
+            <nav class="me-5 ms-5 ">
+                <ul class="pagination justify-content-center navegador">
 
-                        <li class="page-item flechas deshabilitado">
-                            <a class="page-link" href="#" href="userThreads.jsp?user=<%=user.getId()%>&page=0" tabindex="-1">&laquo; Atras</a>
-                        </li>
+                    <li class="page-item flechas deshabilitado">
+                        <a class="page-link" href="#" href="userThreads.jsp?user=<%=user.getId()%>&page=0" tabindex="-1">&laquo; Atras</a>
+                    </li>
 
+                    <%
+                        if (pag != 0) {
+                    %>
+                    <li class="page-item active"><a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=<%=pag - 1%>"><%=pag%></a></li>
                         <%
-                            if (pag != 0) {
+                            }
                         %>
-                        <li class="page-item active"><a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=<%=pag - 1%>"><%=pag%></a></li>
-                            <%
-                                }
-                            %>
-                        <li class="page-item active"><a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=<%=pag%>"><%=pag + 1%></a></li>
-                            <%
-                                if (pag != lastPage) {
-                            %>
-                        <li class="page-item active"><a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
-                            <%
-                                }
-                            %>
+                    <li class="page-item active"><a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=<%=pag%>"><%=pag + 1%></a></li>
+                        <%
+                            if (pag != lastPage) {
+                        %>
+                    <li class="page-item active"><a class="page-link" href="userProducts.jsp?user=<%=user.getId()%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
+                        <%
+                            }
+                        %>
 
-                        <li class="page-item flechas">
-                            <a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=<%=lastPage%>">Siguiente &raquo;</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                    <li class="page-item flechas">
+                        <a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=<%=lastPage%>">Siguiente &raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
-                            <%
+    <%
 
-                            } catch (Exception e) {
-                            %>
-                            <h1 style="color:red">PÁGINA NO ENCONTRADA</h1>
-                            <%
-                                }
-                            %>
+    } catch (Exception e) {
+    %>
+    <h1 style="color:red">PÁGINA NO ENCONTRADA</h1>
+    <%
+        }
+    %>
 </div>    
 
 

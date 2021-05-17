@@ -11,11 +11,13 @@
 <!--IMPORTACIÓN DEL HEADER-->
 <jsp:include page="header.jsp" />
 
-
+<!--PÁGINA DE MENSAJES DIRECTOS ENTRE USUARIOS DE LA TIENDA, DESARROLLO PARALIZADO-->
 <%
     try {
         User user = (User) session.getAttribute("user");
-        if (user == null) throw new Exception("Usuario no logueado intentando acceder a mensajes");
+        if (user == null) {
+            throw new Exception("Usuario no logueado intentando acceder a mensajes");
+        }
         Integer pag = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 0;
         Integer lastPage = DaoTienda.getLastUserPrivateMessagesPage(user.getId());
         Collection<PrivateMessage> messages = DaoTienda.getPrivateMessagesByUser(user.getId(), pag);
@@ -28,46 +30,46 @@
         <li>OFERTA: <%=message.getContent()%></li>
     </ul>
 </li>
-    <%
-        }
-        out.print("</ul>");
+<%
+    }
+    out.print("</ul>");
 %>
-  
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="userPrivateMessages.jsp?page=0" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link" href="userPrivateMessages.jsp?page=0" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <%
+            if (pag != 0) {
+        %>
+        <li class="page-item"><a class="page-link" href="userPrivateMessages.jsp?page=<%=pag - 1%>"><%=pag%></a></li>
             <%
-                if (pag != 0) {
+                }
             %>
-            <li class="page-item"><a class="page-link" href="userPrivateMessages.jsp?page=<%=pag - 1%>"><%=pag%></a></li>
-                <%
-                    }
-                %>
-            <li class="page-item"><a class="page-link" aria-disabled="true" href="userPrivateMessages.jsp?page=<%=pag%>"><%=pag + 1%></a></li>
-                <%
-                    if (pag != lastPage) {
-                %>
-            <li class="page-item"><a class="page-link" href="userPrivateMessages.jsp?page=<%=pag + 1%>"><%=pag + 2%></a></li>
-                <%
-                    }
-                %>
-            <li class="page-item">
-                <a class="page-link" href="userPrivateMessages.jsp?page=<%=lastPage%>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+        <li class="page-item"><a class="page-link" aria-disabled="true" href="userPrivateMessages.jsp?page=<%=pag%>"><%=pag + 1%></a></li>
+            <%
+                if (pag != lastPage) {
+            %>
+        <li class="page-item"><a class="page-link" href="userPrivateMessages.jsp?page=<%=pag + 1%>"><%=pag + 2%></a></li>
+            <%
+                }
+            %>
+        <li class="page-item">
+            <a class="page-link" href="userPrivateMessages.jsp?page=<%=lastPage%>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
 <%
 
-    } catch (Exception e) {
-e.printStackTrace();
-    %>
+} catch (Exception e) {
+    e.printStackTrace();
+%>
 <h1 style="color:red">PÁGINA NO ENCONTRADA</h1>
 <%
     }

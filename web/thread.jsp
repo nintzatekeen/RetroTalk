@@ -16,15 +16,15 @@
 <!--IMPORTACIÓN DEL HEADER-->
 <jsp:include page="header.jsp" />
 <script>
-    window.onload = () => {
-        var btns = document.getElementsByClassName("quoteBtn");
-
-        for (let i = 0; i < btns.length; i++) {
-            btns[i].addEventListener("click", e => {
-                let id = e.target.name;
-                document.getElementById("area").value += "[quote]" + id + "[/quote]";
-            });
-        }
+    //CÓDIGO PARA MOSTRAR BOTONES PARA HACER MÁS SIMPLES LAS CITAS DE MENSAJES
+    window.onload = () = > {
+    var btns = document.getElementsByClassName("quoteBtn");
+            for (let i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", e = > {
+    let id = e.target.name;
+            document.getElementById("area").value += "[quote]" + id + "[/quote]";
+    });
+    }
     }
 
 </script>
@@ -55,7 +55,7 @@
             boolean isAdmin = Utilities.checkAdmin(user);
             if (isAdmin) {
         %>
-
+        <!--OPCIONES EXCLUSIVAS DEL ADMIN-->
         <div class="col-12 d-flex mb-2 ps-5">
             <form method="post" action="ThreadRemoveServlet">
                 <input type="hidden" name="threadId" value="<%=thread%>"/>
@@ -68,7 +68,7 @@
         %>
 
         <div class="container col-12 p-5">
-
+            <!--CARGA DE LOS MENSAJES SOLICITADOS DESDE LA BD-->
             <%
                 for (Message msg : list) {
                     User msgUser = msg.getUser();
@@ -137,6 +137,7 @@
                         %>
 
                     </div>
+                    <!--FORMATEO DE LAS SALIDA DEL MENSAJE CONTENIDO EN BD-->
                     <%=Utilities.formatMsgOutput(msg.getContent())%>
                 </div>    
             </div>
@@ -173,39 +174,39 @@
                     }
                 %>
             </div>
-            
-                            <div class="col-12 mt-5">
-                    <nav class="me-5 ms-5 ">
-                        <ul class="pagination justify-content-center navegador">
+            <!--PAGINACIÓN-->
+            <div class="col-12 mt-5">
+                <nav class="me-5 ms-5 ">
+                    <ul class="pagination justify-content-center navegador">
 
-                            <li class="page-item flechas deshabilitado">
-                                <a class="page-link" href="#" href="thread.jsp?thread=<%=thread%>&page=0" tabindex="-1">&laquo; Atras</a>
-                            </li>
+                        <li class="page-item flechas deshabilitado">
+                            <a class="page-link" href="#" href="thread.jsp?thread=<%=thread%>&page=0" tabindex="-1">&laquo; Atras</a>
+                        </li>
 
+                        <%
+                            if (pag != 0) {
+                        %>
+                        <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag - 1%>"><%=pag%></a></li>
                             <%
-                                if (pag != 0) {
+                                }
                             %>
-                            <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag - 1%>"><%=pag%></a></li>
-                                <%
-                                    }
-                                %>
-                            <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag%>"><%=pag + 1%></a></li>
-                                <%
-                                    if (pag != lastPage) {
-                                %>
-                            <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
-                                <%
-                                    }
-                                %>
+                        <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag%>"><%=pag + 1%></a></li>
+                            <%
+                                if (pag != lastPage) {
+                            %>
+                        <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag + 1%>"><%=pag + 2%></a></li>
+                            <%
+                                }
+                            %>
 
-                            <li class="page-item flechas">
-                                <a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=lastPage%>">Siguiente &raquo;</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            
-            
+                        <li class="page-item flechas">
+                            <a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=lastPage%>">Siguiente &raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+
         </div>  
         <%
         } catch (Exception ex) {
@@ -214,7 +215,7 @@
         <%
             }
         %>    
-        
+
     </div>    
 </div>
 

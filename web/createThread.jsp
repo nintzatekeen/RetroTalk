@@ -12,7 +12,7 @@
 <div class="wrapper container ">
     <div class=" bordeneon colorfondo p-1 p-lg-5 mt-5">
         <h2 class="m-5 titulo border-bottom">Crear nuevo hilo</h2>
-        
+        <!--FORMULARIO CON TÍTULO DEL HILO Y MENSAJE-->
         <form method="post" class="text-center row justify-content-center m-5" action="NewThreadServlet">
             <div class="col-lg-8 col-12">
                 <div class="form-group">
@@ -26,15 +26,15 @@
                 </div>
 
                 <input type="hidden" name="category" value="<%= request.getParameter("cat")%>"/>
-                
+
                 <input type="submit" name="create" class="btn btn-primary mt-3" value="CREAR HILO"/>
-                
+
                 <c:if test="${requestScope.error != null}">
                     <p style="color:red">${requestScope.error} </p>
                 </c:if>
             </div>
         </form>
-        
+
     </div>
 </div>    
 

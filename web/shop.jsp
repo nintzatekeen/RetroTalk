@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-
+        <!--CARGAR LA TIENDA-->
         <%
 
             ArrayList<Product> productsList = (ArrayList<Product>) session.getAttribute("productsList");

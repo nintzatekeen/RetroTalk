@@ -10,7 +10,7 @@
 
 
 <h1>Nuevo Producto</h1>
-
+<!--FORMULARIO PARA AÑADIR UN NUEVO PRODUCTO A LA VENTA POR PARTE DEL USUARIO LOGUEADO-->
 <form method="post" action="InsertProductServlet" enctype="multipart/form-data">
     Título: <input type="text" name="title"/>
     <br/>

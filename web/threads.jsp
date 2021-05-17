@@ -39,7 +39,7 @@
 
                 %>
                 <div class="col-12 ">
-                    <h2 class="m-5 titulo bordeneon">Hilos: <%=DaoRetro.getCategoryById(cat).getName() %></h2> 
+                    <h2 class="m-5 titulo bordeneon">Hilos: <%=DaoRetro.getCategoryById(cat).getName()%></h2> 
                 </div>
 
                 <%
@@ -50,6 +50,7 @@
 
 
                     <%
+                        //OPCIONES EXCLUSIVAS DEL ADMIN
                         if (Utilities.checkAdmin(user)) {
                     %>        
                     <form method="post" action="CategoryRemoveServlet">
@@ -59,12 +60,11 @@
 
                     <%
                         }
-                        
-                        
+
+
                     %>
                 </div>
-                <%
-                    }
+                <%                    }
                     Collection<ForumThread> threads = dao.DaoRetro.getThreads(cat, pag);
                 %>
                 <div class="col-12">
@@ -87,6 +87,7 @@
                     </div> 
 
                     <%
+                        //CARGA DE LOS HILOS DE LA CATEGORÍA EN LA PÁGINA SOLICITADA
                         for (ForumThread thread : threads) {
                     %>
 
@@ -95,6 +96,7 @@
 
                             <div class="col-lg-2 col-4">
                                 <div class="d-flex">
+                                    <!--SI NO HAY FOTO DE PERFIL, SE ESTABLECE POR DEFECTO-->
                                     <c:choose >
                                         <c:when test="${thread.getUser().getAvatar()!=null}">
                                             <img src="${thread.getUser().getAvatar()}"  class="img-fluid me-3 d-block  fotoPerfil" alt="Responsive image">
@@ -123,7 +125,7 @@
                         int lastPage = DaoRetro.getLastCategoryPage(cat);
                     %>
                 </div>
-
+                <!--PAGINACIÓN-->
                 <div class="col-12 mt-5">
                     <nav class="me-5 ms-5 ">
                         <ul class="pagination justify-content-center navegador">

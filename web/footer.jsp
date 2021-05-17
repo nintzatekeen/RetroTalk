@@ -1,5 +1,6 @@
 <%@page import="java.util.List"%>
 <%@page import="beans.Category"%>
+<!--EL FOOTER QUE SE IMPORTARÁ A LOS JSP-->
 <footer class="container">
             <div class="row my-5 justify-content-center py-5">
                 <div class="col-11">

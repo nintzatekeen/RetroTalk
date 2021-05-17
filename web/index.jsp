@@ -28,7 +28,7 @@
         <div class="col-12 ">
             <h2 class="m-5 titulo bordeneon">Categorias</h2>
         </div>
-
+        <!--OPCIONES POR SI ESTÁ LOGUEADO EL ADMIN-->
         <%
             User user = (User) session.getAttribute("user");
             if (utils.Utilities.checkAdmin(user)) {
@@ -46,7 +46,7 @@
                     <hr>
                 </div>
             </div>
-
+            <!--IR ESCRIBIENDO LAS CATEGORÍAS QUE HAY EN LA BD-->
             <%
                 List<Category> list = dao.DaoRetro.getCategories();
                 for (Category c : list) {

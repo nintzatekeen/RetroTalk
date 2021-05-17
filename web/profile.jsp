@@ -21,14 +21,16 @@
         <div class="container">
             <%
                 try {
+                    //OBTENCIÓN DEL USUARIO SOLICITADO DESDE LA BD
                     Integer usrId = Integer.parseInt(request.getParameter("user"));
                     User viewUser = DaoRetro.getUserById(usrId);
                     DateFormat df = new SimpleDateFormat("dd 'de' MMMMMMMMMMMM 'de' YYYY", new Locale("es", "ES"));
             %>
-            
+
             <div class=" row m-3 colorfondo2">
                 <div class="col-12 p-5 d-flex ">
-                     <c:choose >
+                    <!--SELECCIÓN DE LA FOTO DE PERFIL, SI ESTÁ -> BD / SI NO -> IMAGEN POR DEFAULT-->
+                    <c:choose >
                         <c:when test="${user.getAvatar()!=null}">
                             <img src="${user.getAvatar()}" class="img-fluid me-3 d-block fotoPerfil2 bordeneon" alt="imagen perfil">
                         </c:when>
@@ -53,17 +55,18 @@
                     <%
                         if (request.getSession().getAttribute("user") != null) {
                             User user = (User) request.getSession().getAttribute("user");
-                            if(viewUser.getId()==user.getId()){
-                                
+                            if (viewUser.getId() == user.getId()) {
+
                     %>
-                                <a href="editProfile.jsp?user=<%=user.getId()%>" class="btn btn-primary  mt-4">Editar perfil</a>
+                    <!--REDIRECCIÓN A LA PÁGINA DE EDICIÓN DEL PERFIL EN CASO DE SER EL MISMO USUARIO LOGUEADO-->
+                    <a href="editProfile.jsp?user=<%=user.getId()%>" class="btn btn-primary  mt-4">Editar perfil</a>
                     <%      }
                         }
                     %>
                     <a href="userThreads.jsp?user=<%=viewUser.getId()%>" class="btn btn-primary  mt-4">Hilos iniciados por <%=viewUser.getUsername()%></a>
                 </div>
             </div>
-            
+
             <%
             } catch (Exception e) {
             %>

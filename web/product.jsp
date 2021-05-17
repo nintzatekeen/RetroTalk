@@ -17,13 +17,14 @@
     <!-- Integer.parseInt(request.getParameter("id")))--> 
     <body>
         <%
+            //OBTENCIÓN DEL PRODUCTO SOLICITADO POR GET DESDE LA BASE DE DATOS
             Product product = null;
             /*ArrayList<Product> productsList = (ArrayList<Product>) session.getAttribute("productsList");
-            for (Product p : productsList) {
-                if (p.getId() == Integer.parseInt(request.getParameter("id"))) {
-                    product = p;
-                }
-            }*/
+             for (Product p : productsList) {
+             if (p.getId() == Integer.parseInt(request.getParameter("id"))) {
+             product = p;
+             }
+             }*/
             Integer pId = Integer.parseInt(request.getParameter("id"));
             product = dao.DaoTienda.getProductById(pId);
             User user = (User) session.getAttribute("user");
@@ -32,6 +33,7 @@
             }
 
         %>
+        <!--MOSTRAR LOS DATOS DEL PRODUCTO-->
         <jsp:include page="header.jsp" />
         <h1> <%= product.getTitle()%> </h1>
         <img src="<%=product.getImg()%>">
@@ -46,6 +48,7 @@
 
         <h3>Envía tu mensaje</h3>
         <hr>
+        <!--FORMULARIO PARA ENVIAR MENSAJE AL VENDEDOR-->
         <form method="Post" action="NewPrivateMessageServlet">
             <input type="hidden" name="idProducto" value="<%=product.getId()%>"/>
             <label>Oferta: 
