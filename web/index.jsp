@@ -59,7 +59,7 @@
                         <div class="d-flex m-2 col categoria">
                             <div class="bd-placeholder-img flex-shrink-0 me-4 ms-4 rounded">
                                 <div class="rounded-circle icono">
-                                    <i class="fas fa-globe"></i>
+                                    <i class="<%= c.getIcon() %>"></i>
                                 </div>
                             </div>
                             <div>
