@@ -50,6 +50,16 @@
                 <div class="col-lg-5 col-12 offset-lg-1 p-5 colorfondo2">
                     <h4 class="border-bottom">Fecha ingreso:</h4>
                     <p><%=df.format(viewUser.getDate())%></p>
+                    <%
+                        if (request.getSession().getAttribute("user") != null) {
+                            User user = (User) request.getSession().getAttribute("user");
+                            if(viewUser.getId()==user.getId()){
+                                
+                    %>
+                                <a href="editProfile.jsp?user=<%=user.getId()%>" class="btn btn-primary  mt-4">Editar perfil</a>
+                    <%      }
+                        }
+                    %>
                     <a href="userThreads.jsp?user=<%=viewUser.getId()%>" class="btn btn-primary  mt-4">Hilos iniciados por <%=viewUser.getUsername()%></a>
                 </div>
             </div>

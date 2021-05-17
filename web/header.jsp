@@ -1,3 +1,4 @@
+<%@page import="beans.User"%>
 <%@page import="java.util.List"%>
 <%@page import="beans.Category"%>
 <%@page import="beans.Category"%>
@@ -36,7 +37,7 @@
                                 Categorias
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Todas las categorias</a></li>
+                                <li><a class="dropdown-item" href="index.jsp">Todas las categorias</a></li>
                                 <%
                                     List<Category> list = dao.DaoRetro.getCategories();
                                     for (Category c : list) {
@@ -57,10 +58,24 @@
                                 <i class="fas fa-user"></i>
                             </a>
                             <ul class="dropdown-menu menu-right" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Mi cuenta</a></li>
-                                <li><a class="dropdown-item" href="#">Opcion1</a></li>
+                                <%
+                                    if (request.getSession().getAttribute("user") != null) {
+                                        User user = (User) request.getSession().getAttribute("user");
+                                %>
+                                <li><a class="dropdown-item" href="profile.jsp?user=<%=user.getId()%>">Mi cuenta</a></li>
+                                <li><a class="dropdown-item" href="editProfile.jsp?user=<%=user.getId()%>">Editar perfil</a></li>
+                                <li><a class="dropdown-item" href="userThreads.jsp?user=<%=user.getId()%>">Mis hilos creados</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Cerrar sesion</a></li>
+                                <li><a class="dropdown-item" href="LogoutServlet">Cerrar sesion</a></li>
+                                <%
+                                    }else{
+                                %>
+                                <li><a class="dropdown-item" href="login.jsp">Iniciar sesion</a></li>
+                                <li><a class="dropdown-item" href="registro.jsp">Registrarse</a></li>
+                                
+                                <%
+                                    }
+                                %>
                             </ul>
                         </li>
                     </ul>

@@ -56,7 +56,7 @@
                 
         <div class="text-light">
             <div class="d-flex justify-content-center links">
-                Ya tienes una cuenta? <a href="#" class="ps-2">Inicia sesion</a>
+                Ya tienes una cuenta? <a href="login.jsp" class="ps-2">Inicia sesion</a>
             </div>
         </div>   
     </div>

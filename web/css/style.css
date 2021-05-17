@@ -1,8 +1,9 @@
 @font-face {
   font-family: 'Retro';
   src: url('../fonts/joystix monospace.ttf');
-}
+}/* Fuente de letra Retro */
 
+/* Estilo de la cabecera */
 .header{
     height: 40vh;
     background-color: black;
@@ -16,36 +17,37 @@
     background-size: 100% auto;
 }
 
+/* Tamaño del logo de la cabecera */
 .logo{
     height: 200px;
 }
 
+/* Color de fondo del menu */
 .menu{
     background-color:   #e242ff  ;
 }
 
-.dropdown-menu-right {
-  margin-right: 100px;
-}
-
+/* Estilo de los títulos le la web */
 .titulo{
     color: white;
     font-size: 40px; 
     text-align: center;
-    
     padding: 10px;
     text-shadow: 0px 0px 10px #e242ff;
     font-family: 'Retro';
 }
 
+/* Color de fondo del las secciones de la web */
 .colorfondo{
     background-color:    #333333;
 }
 
+/* Color de fondo secundario del las secciones de la web */
 .colorfondo2{
     background-color:  #545454 ;
 }
 
+/* Estilo de los iconos de las categorías */
 .icono{
     background-color: #e242ff;
     height: 70px;
@@ -55,37 +57,44 @@
     vertical-align: central;
 }
 
+/* Estilo de los svg de los iconos de las categorías */
 .icono i{
     font-size: 50px;
     margin-top: 10px;
     color: #333333;
 }
 
+/* Estilo en miniatura de las fotos de perfil de los usuarios  */
 .fotoPerfil{
     max-height: 50px;
     max-width: 50px;
 }
 
+/* Estilo de las fotos de perfil de los usuarios  */
 .fotoPerfil2{
     max-height: 100px;
     max-width: 100px;
 }
 
+/* Estilo del header de los hilos  */
 .headerHilo{
     background-color:  #545454 ;
     height: 30px;
 }
 
+/*  Estilo de los div del header de los hilos  */
 .headerHilo div div{
     border-left: 1px solid #333333; 
     border-right: 1px solid #333333; 
 }
 
+/*  estilo del borde de los hilos  */
 .hilo{
     border-bottom: 1px solid #545454;
     
 }
 
+/*  Estilo de borde efecto neón  */
 .bordeneon{
    -webkit-box-shadow: 3px 3px 5px 3px #e242ff, -7px -5px 15px 5px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0); 
     box-shadow: 4px 3px 15px 2px #e242ff, -2px -5px 15px 4px #00ccff, 3px 3px 5px 3px rgba(0,0,0,0);
@@ -95,6 +104,7 @@
     border-right: 3px solid #e242ff;
 }
 
+/*  Estilo para poner un borde bicolor  */
 .borde{
     border-top: 3px solid #00ccff;
     border-left: 3px solid #00ccff;
@@ -102,6 +112,7 @@
     border-right: 3px solid #e242ff;
 }
 
+/* estilo para los span   */
 .input-group-prepend span{
 width: 50px;
 background-color: #e242ff;
@@ -109,12 +120,14 @@ color: white;
 border:0 !important;
 }
 
+/*  Estilo para cuando se seleccione un input  */
 input:focus{
 outline: 0 0 0 0  !important;
 box-shadow: 0 0 0 0 !important;
 
 }
 
+/*  Estilo para los títulos h3  */
 h3{
     text-shadow: 0px 0px 10px #e242ff;
     font-weight: bold;
@@ -122,6 +135,7 @@ h3{
     font-size: 25px;
 }
 
+/*  Estilo para los títulos h4  */
 h4{
     text-shadow: 0px 0px 10px #e242ff;
     font-weight: bold;
@@ -129,11 +143,13 @@ h4{
     font-size: 15px;
 }
 
+/*  Estilo para los textos descripción  */
 .descripcion{
     color:#DEDEDE;
     border-bottom: 1px solid grey;
 }
 
+/*  Estilo para las categorías  */
 .categoria{
     background-color:#393939;
     padding: 30px 10px 30px 10px;
@@ -141,27 +157,34 @@ h4{
     color: white;
 }
 
+
+/*  Estilo para los enlaces  */
 a{
     text-decoration:none;
     color: white;
 }
 
+/*  Estilo para los enlaces al seleccionarlos con el cursor  */
 enlace:hover {
     color:white;
     border-bottom: 1px solid white;
 }
 
+/*  Estilo para las categoría al seleccionarlas con el cursor  */
 .categoria:hover{
     box-shadow: 0px 0px 10px grey;
     transform: scale(1.01); 
 }
 
+/*  Estilo para el navegador de la cantidad de páginas  */
 .navegador li {
     margin: 0px 10px 0px 10px;
     border-radius: 5px;
     transition: 0.5s;
 }
 
+
+/*  Estilo para los enlaces del navegador  */
 .navegador li a{
     background-color: transparent !important;
     border: none;
@@ -169,50 +192,61 @@ enlace:hover {
 
 }
 
+/*  Estilo para los li del navegador al poner el cursor encima  */
 .navegador li:hover{
     background-color: #e242ff;
     color: white !important;
 
 }
 
+/*  Estilo para los enlaces del navegador al poner el cursor encima  */
 .navegador li:hover a{
     color: white !important;
 
 }
 
+/*  Estilo para el navegador cuando tiene enlaces activados  */
 .navegador .active{
     background-color: #e242ff !important;
 }
 
+/*  Estilo para las flechas del navegador  */
 .flechas{
     background-color: #e242ff ;
 }
 
+/*  Estilo para los botones deshabilitados  */
 .deshabilitado{
     background-color:  #9b6c97 ;
 }
 
+/*  Estilo para las flechas del navegador al situar el cursor encima */
 .flechas:hover{
     background-color:  #fc14ea  !important;
 }
 
+/*  Estilo para las menciones de los mensajes */
 .quote{
    border-left: 10px solid #545454; 
    padding: 20px;
 }
 
+/*  Estilo para las imagenes de los mensjes*/
 .msg img{
     max-height: 300px;
 }
 
+/*  Estilo para las imágenes de las menciones */
 .quote img{
     max-height: 200px;
 }
 
+/*  Estilo para los mensajes */
 .mensaje{
      border-left: 10px solid #545454; 
 }
 
+/*  Estilo para poner el desplegable del menú a la izquierda */
 .menu-right{
     right: -12px;
     left: auto !important;
