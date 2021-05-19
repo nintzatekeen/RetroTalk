@@ -15,6 +15,7 @@
         <script src="script/scripts.js"></script>
         <script src="bootstrap/js/bootstrap.js"></script>
         <meta name="viewport" content="width=device-width height=device-height">
+        <link rel="icon" type="image/png" href="images/logo_RetroTalk.png">
     </head>
     <body class="bg-dark text-light">
         <header class="header vertical-center  justify-content-center d-flex align-items-center">
