@@ -49,9 +49,16 @@
                                 %>
                             </ul>
                         </li>
+                        <%
+                            if (request.getSession().getAttribute("user") != null) {
+
+                        %>
                         <li class="nav-item">
                             <a class="nav-link" href="ShopServlet" tabindex="-1">Tienda</a>
                         </li>
+                            <%                                     }
+                            %>
+                       
                     </ul>
                     <ul class="navbar-nav mb-2 mr-2 mb-lg-0">
                         <li class="nav-item dropdown mr-3">
