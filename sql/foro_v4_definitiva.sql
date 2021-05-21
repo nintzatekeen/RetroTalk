@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 20-05-2021 a las 18:31:29
+-- Tiempo de generación: 21-05-2021 a las 12:39:56
 -- Versión del servidor: 5.7.31
--- Versión de PHP: 7.3.21
+-- Versión de PHP: 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS `category` (
 --
 
 INSERT INTO `category` (`id`, `name`, `description`, `icon`) VALUES
-(1, 'GENERAL', 'Zona para temas varios', NULL),
-(2, 'CLÁSICO Y VINTAGE', 'Zona de productos clásicos', NULL),
-(3, 'HARDWARE Y SOFTWARE RETRO', 'Zona de hardware viejuno', NULL),
-(4, 'COLECCIONES Y GAME ROOMS', 'Zona para mostrar vuestras colecciones retro', NULL),
-(5, 'MODERNO Y ACTUAL', 'Zona para productos de la actualidad', NULL);
+(1, 'GENERAL', 'Zona para temas varios', 'fas fa-globe'),
+(2, 'CLÁSICO Y VINTAGE', 'Zona de productos clásicos', 'fas fa-gamepad'),
+(3, 'HARDWARE Y SOFTWARE RETRO', 'Zona de hardware viejuno', 'fas fa-memory'),
+(4, 'COLECCIONES Y GAME ROOMS', 'Zona para mostrar vuestras colecciones retro', 'fas fa-grip-horizontal'),
+(5, 'MODERNO Y ACTUAL', 'Zona para productos de la actualidad', 'fas fa-gamepad');
 
 -- --------------------------------------------------------
 
