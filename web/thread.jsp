@@ -179,12 +179,20 @@
             <div class="col-12 mt-5">
                 <nav class="me-5 ms-5 ">
                     <ul class="pagination justify-content-center navegador">
-
+                        <%
+                            if (pag == 0) {
+                        %>
                         <li class="page-item flechas deshabilitado">
                             <a class="page-link" href="#" href="thread.jsp?thread=<%=thread%>&page=0" tabindex="-1">&laquo; Atras</a>
                         </li>
-
                         <%
+                            }else{
+                        %>
+                        <li class="page-item flechas">
+                            <a class="page-link" href="#" href="thread.jsp?thread=<%=thread%>&page=<%=pag - 1%>" tabindex="-1">&laquo; Atras</a>
+                        </li>    
+                        <%
+                            }
                             if (pag != 0) {
                         %>
                         <li class="page-item active"><a class="page-link" href="thread.jsp?thread=<%=thread%>&page=<%=pag - 1%>"><%=pag%></a></li>
