@@ -97,13 +97,13 @@
                             if (pag == 0) {
                         %>
                         <li class="page-item flechas deshabilitado">
-                            <a class="page-link" href="#" href="threadSearch.jsp?text=<%=text%>&page=0" tabindex="-1">&laquo; Atras</a>
+                            <a class="page-link" href="threadSearch.jsp?text=<%=text%>&page=0" tabindex="-1">&laquo; Atras</a>
                         </li>
                         <%
                             }else{
                         %>
                         <li class="page-item flechas">
-                            <a class="page-link" href="#"href="threadSearch.jsp?text=<%=text%>&page=<%=pag - 1%>" tabindex="-1">&laquo; Atras</a>
+                            <a class="page-link" href="threadSearch.jsp?text=<%=text%>&page=<%=pag - 1%>" tabindex="-1">&laquo; Atras</a>
                         </li>  
 
                         <%  

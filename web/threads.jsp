@@ -133,13 +133,13 @@
                                 if (pag == 0) {
                             %>
                             <li class="page-item flechas deshabilitado">
-                                <a class="page-link" href="#" href="threads.jsp?cat=<%=cat%>&page=0" tabindex="-1">&laquo; Atras</a>
+                                <a class="page-link" href="threads.jsp?cat=<%=cat%>&page=0" tabindex="-1">&laquo; Atras</a>
                             </li>
                             <%
                             } else {
                             %>
                             <li class="page-item flechas">
-                                <a class="page-link" href="#" href="threads.jsp?cat=<%=cat%>&page=<%=pag - 1%>" tabindex="-1">&laquo; Atras</a>
+                                <a class="page-link" href="threads.jsp?cat=<%=cat%>&page=<%=pag - 1%>" tabindex="-1">&laquo; Atras</a>
                             </li>
                             <%
                                 }

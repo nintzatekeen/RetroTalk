@@ -3,8 +3,7 @@
 <%@page import="beans.Category"%>
 <%@page import="beans.Category"%>
 <!DOCTYPE html>
-<html>
-    <html>
+<html lang="es">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
@@ -62,7 +61,7 @@
                     </ul>
                     <ul class="navbar-nav mb-2 mr-2 mb-lg-0">
                         <li class="nav-item dropdown mr-3">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user"></i>
                             </a>
                             <ul class="dropdown-menu menu-right" aria-labelledby="navbarDropdown">

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 21-05-2021 a las 12:39:56
+-- Tiempo de generación: 21-05-2021 a las 13:58:15
 -- Versión del servidor: 5.7.31
--- Versión de PHP: 7.4.9
+-- Versión de PHP: 7.3.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `FK_UserMessage` (`user`),
   KEY `FK_ThreadMessage` (`thread`),
   KEY `FK_QuoteMessage` (`quote`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `message`
@@ -76,7 +76,9 @@ INSERT INTO `message` (`id`, `content`, `user`, `thread`, `date`, `quote`) VALUE
 (23, 'Hilo creado por el administrador', 1, 11, '2021-05-20 20:29:27', NULL),
 (21, 'Hilo creado por el administrador', 1, 9, '2021-05-20 20:29:05', NULL),
 (22, 'Hilo creado por el administrador', 1, 10, '2021-05-20 20:29:17', NULL),
-(20, 'Hilo creado por el administrador', 1, 8, '2021-05-20 20:28:51', NULL);
+(20, 'Hilo creado por el administrador', 1, 8, '2021-05-20 20:28:51', NULL),
+(26, 'Prueba de inserciÃ³n de imagen\r\n[IMG]https://i.imgur.com/h0wDZNi.png[/IMG]', 1, 8, '2021-05-21 15:31:14', NULL),
+(27, '[quote]26[/quote]\r\nPrueba de cita de mensaje', 1, 8, '2021-05-21 15:31:28', NULL);
 
 -- --------------------------------------------------------
 

@@ -100,7 +100,7 @@
                 <ul class="pagination justify-content-center navegador">
 
                     <li class="page-item flechas deshabilitado">
-                        <a class="page-link" href="#" href="userThreads.jsp?user=<%=user.getId()%>&page=0" tabindex="-1">&laquo; Atras</a>
+                        <a class="page-link" href="userThreads.jsp?user=<%=user.getId()%>&page=0" tabindex="-1">&laquo; Atras</a>
                     </li>
 
                     <%

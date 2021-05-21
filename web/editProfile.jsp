@@ -30,34 +30,34 @@
                         </c:choose>
                     </div>
                     <label for="avatar" class="">Nuevo avatar:</label>
-                    <input type="file" name="avatar" value="Subir avatar" id="avatar" accept="image/*"/>
+                    <input type="file" name="avatar" id="avatar" accept="image/*"/>
                 </div>
 
                 <div class="form-group mt-2 text-start">
                     <label for="bio" class="">Bio:</label>
-                    <textarea type="text" class="form-control"  name="bio" rows="4" id="bio" placeholder="Bio..." >${user.getBio()}</textarea>
+                    <textarea class="form-control"  name="bio" rows="4" id="bio" placeholder="Bio..." >${user.getBio()}</textarea>
                 </div>
 
                 <div class="form-group mt-2 text-start">
                     <label for="email" class="">Email:</label>
-                    <input type="text" class="form-control" id="inputUser" ptype="email" name="email" placeholder="Correo Electrónico" value="${user.getEmail()}"/>
+                    <input class="form-control" id="email" type="email" name="email" placeholder="Correo Electrónico" value="${user.getEmail()}"/>
                 </div>
 
                 <h5 class="bold-text mt-5 border-bottom p-1 mb-4">Cambiar contraseña</h5>
 
                 <div class="form-group mt-2 text-start">
                     <label for="oldPass" class="d-none">Contraseña actual:</label>
-                    <input type="password" name="oldPass" id="oldPass" class="form-control" rows="4" id="bio" placeholder="Contraseña actual..." />
+                    <input type="password" name="oldPass" id="oldPass" class="form-control" placeholder="Contraseña actual..." />
                 </div>
                 <!--NUEVA CONTRASEÑA Y CONFIRMACIÓN-->
                 <div class="form-group mt-2 text-start">
                     <label for="newPass" class="d-none">Nueva contraseña:</label>
-                    <input type="password" name="newPass" id="newPass" class="form-control" rows="4" id="bio" placeholder="Nueva contraseña..." />
+                    <input type="password" name="newPass" id="newPass" class="form-control" placeholder="Nueva contraseña..." />
                 </div>
 
                 <div class="form-group mt-2 text-start">
                     <label for="newPassConfirm" class="d-none">Repetir contraseña:</label>
-                    <input type="password" name="newPassConfirm" id="newPassConfirm" class="form-control" rows="4" id="bio" placeholder="Repetir contraseña..." />
+                    <input type="password" name="newPassConfirm" id="newPassConfirm" class="form-control" placeholder="Repetir contraseña..." />
                 </div>
 
                 <input type="submit" name="editProfile" class="btn btn-primary mt-3" value="Actualizar perfil"/>

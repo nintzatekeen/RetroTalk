@@ -11,7 +11,6 @@
 <%@page import="beans.User"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <jsp:include page="header.jsp" />
 
 <div class="wrapper container ">
@@ -75,5 +74,6 @@
                 }
             %>
         </div>
-    </div>    
-    <jsp:include page="footer.jsp" />
+    </div>
+</div>
+<jsp:include page="footer.jsp" />
